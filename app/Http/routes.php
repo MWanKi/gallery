@@ -11,6 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::resource('/','ArticleController');
+Route::resource('/upload','ArticleController@upload');
+Route::resource('/{article_id}','ArticleController@show');
