@@ -8,10 +8,17 @@ use App\Http\Requests;
 
 use App\Article;
 
+use App\URL;
+
 use Validator;
+
+// import the Intervention Image Manager Class
+use Intervention\Image\ImageManagerStatic as Image;
+
 
 class ArticleController extends Controller
 {
+
     function index() 
     {
     	$articles = Article::where('deleted', false)
@@ -65,15 +72,24 @@ class ArticleController extends Controller
 
             $imageName = time() . '.' . $request->file('image')
                                  ->getClientOriginalExtension();
+            
+            // resizing an uploaded file
+            Image::make(
+                $request->file('image'))
+                ->crop(
+                    $request->image_w, 
+                    $request->image_h, 
+                    $request->image_x, 
+                    $request->image_y)
+                ->save('uploads/'.$imageName);
 
             $article->image = $imageName;
             
-            $request->file('image')
-                    ->move('uploads', $imageName);
             $article->save();
 
             return redirect('/');
         }
         
     }
+
 }

@@ -10,9 +10,12 @@
 	<script src="{{ url('js/common.js') }}"></script>
 	<script type="text/javascript" src="{{ url('/editor/js/HuskyEZCreator.js') }}" charset="utf-8"></script>
 	<script type="text/javascript" src="{{ url('/js/uploadPreview.js') }}"></script>
+	<script type="text/javascript" src="{{ url('/js/jquery.Jcrop.min.js') }}"></script>
 	<link rel='stylesheet' href="{{url('css/nprogress.css') }}"/>
 	<link rel="stylesheet" href="{{ url('css/reset.css') }}">
 	<link rel="stylesheet" href="{{ url('css/common.css') }}">
+	<link rel="stylesheet" href="{{ url('css/jquery.Jcrop.css') }}">
+
 </head>
 <body>
 	@include('layouts.tag-header')

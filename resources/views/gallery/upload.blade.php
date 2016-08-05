@@ -35,6 +35,132 @@
     </script>
 @endif
 
+<span class="blackcover"></span>
+
+	<script language="Javascript">
+	    $(function() {
+
+    		// Create variables (in this scope) to hold the API and image size
+		    var jcrop_api,
+		        boundx,
+		        boundy,
+
+		        // Grab some information about the preview pane
+		        $preview = $('#preview-pane'),
+		        $pcnt = $('#preview-pane .preview-container'),
+		        $pimg = $('#preview-pane .preview-container img'),
+
+		        xsize = $pcnt.width(),
+		        ysize = $pcnt.height();
+
+	    	function showCoords(c) {
+		        // variables can be accessed here as
+		        // c.x, c.y, c.x2, c.y2, c.w, c.h
+
+		        var rx = xsize / c.w,
+		        	ry = ysize / c.h;
+		        
+		        if (parseInt(c.w) > 0) {
+			        //var rx = xsize / c.w * c.w;
+			        //var ry = ysize / c.h * c.h;
+
+			        $pimg.css({
+			            width: Math.round(rx * boundx) + 'px',
+			            height: Math.round(ry * boundy) + 'px',
+			            marginLeft: '-' + Math.round(rx * c.x) + 'px',
+			            marginTop: '-' + Math.round(ry * c.y) + 'px'
+			        });
+			    }
+
+		    	$('input[name=image_w]').val(c.w);
+		        $('input[name=image_h]').val(c.h);
+		        $('input[name=image_x]').val(c.x);
+		        $('input[name=image_y]').val(c.y);
+		    
+			}
+
+			$(document).on('change', '#image-upload', function() {
+				
+				// Todo destroy Jcrop
+				// ...
+
+			    if(window.FileReader) {
+			        var reader = new FileReader();
+			        reader.onload = function(e) {
+
+			        	if ($("#image-upload").val() != '') {
+
+			        		$pimg.attr('src',reader.result);
+				            real_width = $pimg[0].naturalWidth;
+				            real_height = $pimg[0].naturalHeight;	
+			        	
+				            if (real_width > 1200) {
+				            	alert("가로 사이즈가 1200픽셀보다 작은 이미지를 업로드해주세요.");
+				            } else {
+				            	if (real_width < 290) {
+				            		alert("가로 사이즈가 290픽셀보다 큰 이미지를 업로드해주세요.");
+				            	} else {
+				            		$('.box-modal-crop').fadeIn();
+						        	$('.blackcover').fadeIn();
+						        	$('.box-image').children().remove();
+									$('.box-image').append("<img id='target'>").show();
+
+					            	$('#target').attr('src',reader.result);
+					            	$pimg.attr('src',reader.result);
+					            	$('#target').css({'width':'auto','height':'auto'});
+							        $('#target').Jcrop({
+							        	onChange:    showCoords,
+							        	onSelect:    showCoords,
+							            bgColor:     'black',
+							            bgOpacity:   .4,
+							            setSelect:   [ 100, 100, 50, 50 ],
+							            aspectRatio: 1 / 1,
+							            minSize: [290, 290],
+							        }, function(){
+									    // Use the API to get the real image size
+									    var bounds = this.getBounds();
+									    boundx = bounds[0];
+									    boundy = bounds[1];
+
+									    // Store the API in the jcrop_api variable
+									    _jcrop_api = this;
+
+									    // Move the preview into the jcrop container for css positioning
+									    $preview.appendTo(_jcrop_api.ui.holder);
+								    });
+
+							        modal = $('.box-modal-crop');
+								    modalWidth = modal.width();
+								    modal.css({'margin-left':-modalWidth/2});
+				            	}
+				            }
+				        }
+				    }
+			        reader.readAsDataURL(this.files[0]);  
+			    }
+			});
+
+	        
+		
+	    });
+	</script>
+
+	<!-- 이미지 크롭 -->
+		<div class="box-modal-crop">
+			<h4>미리보기 이미지 설정</h4>
+			<div class="box-image">
+				<img src="" alt="" id="target">
+			</div>
+			<a href="" class="confirm">이미지 확인</a>
+		</div>
+		<div id="preview-pane" class="blind">
+			<div class="preview-container">
+				<img src="{{ url('uploads/foo.jpg') }}" alt="" class="preview-target">
+			</div>
+		</div>
+	<!-- 이미지 크롭 -->
+
+
 	<div class="box-upload">
 		<span class="txt-upload">C.GALLERY UPLOAD</span>
 		<form action="{{ url('/') }}" method="POST" id="upload-article" enctype="multipart/form-data">
@@ -44,6 +170,12 @@
 	        <input type="hidden" name="profit" value="0">
 	        <input type="hidden" name="share" value="0">
 	        <input type="hidden" name="open" value="1">
+			<!-- 이미지 사이즈 -->
+			<input type="hidden" name="image_w" value="">
+			<input type="hidden" name="image_h" value="">
+			<input type="hidden" name="image_x" value="">
+			<input type="hidden" name="image_y" value="">
+			<!-- 이미지 사이즈 -->
 
 	        <h2>작품의 정보를 입력해주세요.</h2>
 	        <div class="box-thumbnail" id="image-preview">
@@ -56,6 +188,19 @@
 				</a>
 			    <input class="blind" type="file" name="image" id="image-upload" accept="image/*"/>
 				<script type="text/javascript">
+					$(function(){
+
+						// 이미지 썸네일 미리보기
+						$('.confirm').click(function(){
+							$(".box-thumbnail #preview-pane").remove();
+							$("#preview-pane").clone().prependTo(".box-thumbnail");
+							$(".box-thumbnail #preview-pane").removeClass("blind");
+							$('.box-modal-crop').fadeOut();
+							$('.blackcover').fadeOut();
+							return false;
+						});
+						
+					});
 
 					// 제목 미리보기
 					$(document).on("keyup", '#upload-title', function() {
@@ -66,18 +211,6 @@
 					$(document).on("click", ".btn-thumbnail", function(){
 						$("#image-upload").click();
 						return false;
-					});
-
-					// 이미지 미리보기
-					$(document).ready(function() {
-					    $.uploadPreview({
-					        input_field: "#image-upload",   // Default: .image-upload
-					    	preview_box: "#image-preview",  // Default: .image-preview
-					    	label_field: "#image-label",    // Default: .image-label
-					    	label_default: "",   // Default: Choose File
-					    	label_selected: "",  // Default: Change File
-					    	no_label: true                 // Default: false
-					    });
 					});
 				</script>
 				<p class="desc">* <span class="point">580 x 580</span> 픽셀 크기의 이미지를 권장합니다.<span class="required">(필수)</span></p>
@@ -346,11 +479,11 @@
 			
 	    });
 
-		// 에러 제거
+		// 에러 제거 및 썸네일 업로드
 		$(document).on("change",'input[type=file]', function() {
 			if ($(this).val() != '') {
 				$('.box-upload .box-thumbnail').removeClass('error');
-			}
+			} 
 		});
 
 		$(document).on("blur",'input[name=title]', function() {
@@ -368,4 +501,5 @@
 	});
 	
 	</script>
+
 @endsection
