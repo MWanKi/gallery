@@ -12,5 +12,10 @@
 */
 
 Route::resource('/','ArticleController');
-Route::resource('/upload','ArticleController@upload');
-Route::resource('/{article_id}','ArticleController@show');
+Route::resource('articles','ArticleController');
+Route::resource('articles/{article_id}/like','ArticleController@like');
+Route::resource('articles/{article_id}/comments','CommentController');
+Route::get('auth/logout','Auth\AuthController@logout');
+
+
+

@@ -98,40 +98,46 @@
 				            	alert("가로 사이즈가 1200픽셀보다 작은 이미지를 업로드해주세요.");
 				            } else {
 				            	if (real_width < 290) {
-				            		alert("가로 사이즈가 290픽셀보다 큰 이미지를 업로드해주세요.");
+				            		if (real_height < 290) {
+				            			alert("가로, 세로 사이즈가 290픽셀보다 큰 이미지를 업로드해주세요.");	
+				            		}
 				            	} else {
-				            		$('.box-modal-crop').fadeIn();
-						        	$('.blackcover').fadeIn();
-						        	$('.box-image').children().remove();
-									$('.box-image').append("<img id='target'>").show();
+				            		if (real_height < 290) {
+				            			alert("가로, 세로 사이즈가 290픽셀보다 큰 이미지를 업로드해주세요.");	
+				            		} else {
+				            			$('.box-modal-crop').fadeIn();
+							        	$('.blackcover').fadeIn();
+							        	$('.box-image').children().remove();
+										$('.box-image').append("<img id='target'>").show();
 
-					            	$('#target').attr('src',reader.result);
-					            	$pimg.attr('src',reader.result);
-					            	$('#target').css({'width':'auto','height':'auto'});
-							        $('#target').Jcrop({
-							        	onChange:    showCoords,
-							        	onSelect:    showCoords,
-							            bgColor:     'black',
-							            bgOpacity:   .4,
-							            setSelect:   [ 100, 100, 50, 50 ],
-							            aspectRatio: 1 / 1,
-							            minSize: [290, 290],
-							        }, function(){
-									    // Use the API to get the real image size
-									    var bounds = this.getBounds();
-									    boundx = bounds[0];
-									    boundy = bounds[1];
+						            	$('#target').attr('src',reader.result);
+						            	$pimg.attr('src',reader.result);
+						            	$('#target').css({'width':'auto','height':'auto'});
+								        $('#target').Jcrop({
+								        	onChange:    showCoords,
+								        	onSelect:    showCoords,
+								            bgColor:     'black',
+								            bgOpacity:   .4,
+								            setSelect:   [ 100, 100, 50, 50 ],
+								            aspectRatio: 1 / 1,
+								            minSize: [290, 290],
+								        }, function(){
+										    // Use the API to get the real image size
+										    var bounds = this.getBounds();
+										    boundx = bounds[0];
+										    boundy = bounds[1];
 
-									    // Store the API in the jcrop_api variable
-									    _jcrop_api = this;
+										    // Store the API in the jcrop_api variable
+										    _jcrop_api = this;
 
-									    // Move the preview into the jcrop container for css positioning
-									    $preview.appendTo(_jcrop_api.ui.holder);
-								    });
+										    // Move the preview into the jcrop container for css positioning
+										    $preview.appendTo(_jcrop_api.ui.holder);
+									    });
 
-							        modal = $('.box-modal-crop');
-								    modalWidth = modal.width();
-								    modal.css({'margin-left':-modalWidth/2});
+								        modal = $('.box-modal-crop');
+									    modalWidth = modal.width();
+									    modal.css({'margin-left':-modalWidth/2});
+				            		}
 				            	}
 				            }
 				        }
@@ -163,7 +169,7 @@
 
 	<div class="box-upload">
 		<span class="txt-upload">C.GALLERY UPLOAD</span>
-		<form action="{{ url('/') }}" method="POST" id="upload-article" enctype="multipart/form-data">
+		<form action="{{ url('/articles') }}" method="POST" id="upload-article" enctype="multipart/form-data">
 	        {{ csrf_field() }}
 	        <input type="hidden" name="category" value="">
 	        <input type="hidden" name="creative" value="0">
@@ -181,9 +187,13 @@
 	        <div class="box-thumbnail" id="image-preview">
 	        	<a class="btn-thumbnail" href="#">
 					<div class="desc-box">
-						<img src="{{ url('images/logo.png') }}" alt="" class="profile">
+						@if (auth()->user()->image == '')
+							<img src="{{ url('images/profile.png') }}" alt="" class="profile">
+						@else
+
+						@endif
 						<span class="title">&nbsp;</span>
-						<span class="writer">by. </span>
+						<span class="writer">by. {{ auth()->user()->name }}</span>
 					</div>
 				</a>
 			    <input class="blind" type="file" name="image" id="image-upload" accept="image/*"/>
@@ -218,7 +228,7 @@
 	        <div class="box-condition">
 	        	<div class="box-title">
 		        	<span class="title">제목을 입력해주세요. <span class="required">(필수)</span></span>
-			        <input type="text" name="title" id="upload-title" placeholder="제목을 입력해주세요.">
+			        <input type="text" name="title" id="upload-title" placeholder="제목을 입력해주세요." maxlength="100">
 		        </div>
 		        <div class="box-category">
 		        	<span class="title">카테고리를 선택해주세요.<span class="required">(필수)</span></span>
@@ -250,22 +260,48 @@
 			        	var tag = $('.box-tag input').val();
 
 			        	$('.category-selected p').text(category).removeClass('open');
+			        	$('#tags').addTag($(this).text());
 
-			        	if ($('.box-tag input').val() == '') {
-			        		$('.box-tag input').val(tag+category);
-			        	} else {
-			        		$('.box-tag input').val(tag+','+category);
+			        	if ($('.tag').length > 5) {
+			        		$('.box-alert').show();
+			        				setTimeout(function(){
+			        					$('.box-alert').fadeOut(500);
+			        				},1000);
+			        		$('.tag:first').remove();
 			        	}
-			        	
+
 			        	$('input[name=category]').val(index);
 			        	$('.category-list').hide();
 			        	return false;
 			        });
 		        </script>
 		        <div class="box-category box-tag">
-		        	<span class="title">태그를 입력해주세요. <span class="desc">(콤마로 구분)</span></span>
-		        	<input type="text" placeholder="아트,회화,만화" name="tag">
+		        	<span class="title">태그를 입력해주세요. <span class="desc">(엔터키 입력시 태그 생성)</span></span>
+		        	<div class="wrap-tag">
+		        		<input type="text" placeholder="태그를 입력해주세요." name="tags" id="tags" maxlength="10">
+		        	</div>
+		        	<div class="box-alert">
+	        			태그는 5개까지 입력 가능합니다.
+	        		</div>
 		        </div>
+		        <script>
+			        // 태그 인풋
+			        $(function(){
+			        	$('#tags').tagsInput();
+			        	$('#tags_addTag input').attr("maxlength", 10).css({'width':'auto','display':'inline-block;'});
+			        	$('#tags_tag').on('keypress', function (event){
+			        		if (event.keyCode == 13) {
+			        			if ($('.tag').length > 5) {
+			        				$('.box-alert').show();
+			        				setTimeout(function(){
+			        					$('.box-alert').fadeOut(500);
+			        				},1000);
+			        				$('.tag:last').remove();
+			        			}
+			        		}
+			        	});
+			        });
+		        </script>
 		        <div class="box-category box-license box-creative">
 		        	<span class="title">크리에이티브 커먼즈 라이선스를 적용하겠습니까?</span>
 		        	<ul class="cf">
@@ -353,7 +389,7 @@
 						$('.box-profit input, .box-share input').attr("disabled", "disabled");
 						
 						// 저작권 표시 변경
-						$('.box-copyright .copyright').show();
+						$('.box-copyright .copyright').removeClass('blind').show();
 						$('.box-copyright .license').hide();
 					}
 
@@ -461,6 +497,11 @@
 		        	$('.box-upload .box-category > ul li.category-selected p').addClass('error');	
 		        }
 
+		        if ($('.tag').length < 1) {
+		        	error.push('태그를 최소 1개 이상 입력해주세요.'); 	
+		        	$('.box-upload .box-tag .wrap-tag').addClass('error');	
+		        }
+
 		        if (error.length > 0) {
 		        	alert(error.join("\n"));
 		        } else {
@@ -492,12 +533,19 @@
 			}
 		});
 
+		$(document).on("blur",'#tags_tag', function() {
+			if ($('.tag').length > 0) {
+				$('.box-upload .box-tag .wrap-tag').removeClass('error');
+			}
+		});
+
 		$(document).on("click",'.box-upload .box-category > ul li.category-list li a', function() {
 			if ($('input[name=category]').val() != '') {
 				$('.box-upload .box-category > ul li.category-selected p').removeClass('error');
 			}
 		});
 
+		$('.box-upload .box-agree .check input').removeAttr('checked');
 	});
 	
 	</script>

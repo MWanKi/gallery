@@ -2,11 +2,23 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+
 use App\User;
+
 use Validator;
+
 use App\Http\Controllers\Controller;
+
 use Illuminate\Foundation\Auth\ThrottlesLogins;
+
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+
+// import the Intervention Image Manager Class
+use Intervention\Image\ImageManagerStatic as Image;
+
 
 class AuthController extends Controller
 {
@@ -37,7 +49,8 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+        // $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+        $this->middleware('guest', ['except' => ['logout', 'getLogout']]);
     }
 
     /**
@@ -46,7 +59,7 @@ class AuthController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
+    function validator(array $data)
     {
         return Validator::make($data, [
             'name' => 'required|max:255',
@@ -63,10 +76,54 @@ class AuthController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+        $validator = Validator::make($data, [
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|min:6|confirmed',
         ]);
+
+        if ($validator->fails()) {
+            return redirect('/auth/register')
+                    ->withErrors($validator)
+                    ->withInput();
+        } else {
+            return User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => bcrypt($data['password']),
+            ]);
+        }
+        
     }
+
+    // function create(Array $data)
+    // {
+    //     $validator = Validator::make($data, [
+    //         'name' => 'required|max:255',
+    //         'email' => 'required|email|max:255|unique:users',
+    //         'password' => 'required|min:6|confirmed',
+    //         'image' => 'required',
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         return redirect('/auth/register')
+    //                 ->withErrors($validator)
+    //                 ->withInput();
+    //     } else {
+
+    //         // $user = new User;
+    //         // $user->name = $request->name;
+    //         // $user->email = $request->email;
+    //         // $user->password = bcrypt($request->password);
+    //         // $user->image = 'asdf';
+    //         // $user->save();
+
+    //         return User::create([
+    //             'name' => $data['name'],
+    //             'email' => $data['email'],
+    //             'password' => bcrypt($data['password']),
+    //         ]);
+    //     }
+        
+    // }
 }
