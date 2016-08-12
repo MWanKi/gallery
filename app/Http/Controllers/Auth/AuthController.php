@@ -82,6 +82,23 @@ class AuthController extends Controller
             'password' => 'required|min:6|confirmed',
         ]);
 
+        $imageName = time() . '.' . $data['image']
+                                 ->getClientOriginalExtension();
+            
+        // resizing an uploaded file
+        Image::make(
+            $data['image'])
+            ->crop(
+                $data['image_w'], 
+                $data['image_h'], 
+                $data['image_x'], 
+                $data['image_y'])
+            ->save('uploads/'.$imageName);
+
+
+
+        $data['image'] = $imageName;
+
         if ($validator->fails()) {
             return redirect('/auth/register')
                     ->withErrors($validator)
@@ -91,39 +108,9 @@ class AuthController extends Controller
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => bcrypt($data['password']),
+                'image' => $data['image'],
             ]);
         }
         
     }
-
-    // function create(Array $data)
-    // {
-    //     $validator = Validator::make($data, [
-    //         'name' => 'required|max:255',
-    //         'email' => 'required|email|max:255|unique:users',
-    //         'password' => 'required|min:6|confirmed',
-    //         'image' => 'required',
-    //     ]);
-
-    //     if ($validator->fails()) {
-    //         return redirect('/auth/register')
-    //                 ->withErrors($validator)
-    //                 ->withInput();
-    //     } else {
-
-    //         // $user = new User;
-    //         // $user->name = $request->name;
-    //         // $user->email = $request->email;
-    //         // $user->password = bcrypt($request->password);
-    //         // $user->image = 'asdf';
-    //         // $user->save();
-
-    //         return User::create([
-    //             'name' => $data['name'],
-    //             'email' => $data['email'],
-    //             'password' => bcrypt($data['password']),
-    //         ]);
-    //     }
-        
-    // }
 }

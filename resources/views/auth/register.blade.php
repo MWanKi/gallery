@@ -98,7 +98,7 @@
 								            bgOpacity:   .4,
 								            setSelect:   [ 100, 100, 50, 50 ],
 								            aspectRatio: 1 / 1,
-								            minSize: [290, 290],
+								            minSize: [100, 100],
 								        }, function(){
 										    // Use the API to get the real image size
 										    var bounds = this.getBounds();
@@ -137,7 +137,7 @@
 			</div>
 			<a href="" class="confirm">이미지 확인</a>
 		</div>
-		<div id="preview-pane" class="blind">
+		<div id="preview-pane" class="register blind">
 			<div class="preview-container">
 				<img src="{{ url('uploads/foo.jpg') }}" alt="" class="preview-target">
 			</div>
@@ -146,86 +146,285 @@
 
 
 <div class="wrap-register">
-	<div class="box-register">
-		<h2>회원가입</h2>
+	<h2>
+		회원 가입
+		<span class="welcome">
+			예술향유 문화공간에 오신것을 환영합니다.<br>
+			간단한 정보 제공으로 회원가입 하실 수 있습니다.
+		</span>
+	</h2>
+	<form class="regist-form" method="POST" action="{{ url('/auth/register') }}" enctype="multipart/form-data">
+		{!! csrf_field() !!}
+		<div class="box-left box-layout">
+			<h3>개인정보취급방침</h3>
+			<div class="cover">
+				<textarea name="" id="" cols="30" rows="10" readonly>@include('gallery.private')</textarea>
+			</div>
+			<h3>이용약관</h3>
+			<div class="cover">
+				<textarea name="" id="" cols="30" rows="10" readonly>@include('gallery.use')</textarea>
+			</div>
+		</div>
+		<div class="box-right box-layout">
+			<div class="box-register">
+				<h3>정보 입력</h3>	
+				<!-- 이미지 사이즈 -->
+				<input type="hidden" name="image_w" value="">
+				<input type="hidden" name="image_h" value="">
+				<input type="hidden" name="image_x" value="">
+				<input type="hidden" name="image_y" value="">
+				<!-- 이미지 사이즈 -->
+				<div class="box-profile">
+					<div class="box-left">
+						<div class="box-thumbnail" id="image-preview">
+				        	<a class="btn-thumbnail" href="#">
+								<div class="desc-box">
+									<img src="{{ url('images/profile2.png') }}" alt="" class="profile">
+								</div>
+							</a>
+						    <input class="blind" type="file" name="image" id="image-upload" accept="image/*"/>
+							<script type="text/javascript">
+								$(function(){
 
-		<form class="" method="POST" action="{{ url('/auth/register') }}" enctype="multipart/form-data">
-			{!! csrf_field() !!}
-			<!-- 이미지 사이즈 -->
-			<input type="hidden" name="image_w" value="">
-			<input type="hidden" name="image_h" value="">
-			<input type="hidden" name="image_x" value="">
-			<input type="hidden" name="image_y" value="">
-			<!-- 이미지 사이즈 -->
-			<div class="box-thumbnail" id="image-preview">
-	        	<a class="btn-thumbnail" href="#">
-					<div class="desc-box">
-						<img src="{{ url('images/logo.png') }}" alt="" class="profile" style="width:200px;">
-						<span class="title">&nbsp;</span>
-						<span class="writer"></span>
+									// 이미지 썸네일 미리보기
+									$('.confirm').click(function(){
+										$(".box-thumbnail #preview-pane").remove();
+										$("#preview-pane").clone().prependTo(".box-thumbnail");
+										$(".box-thumbnail #preview-pane").removeClass("blind");
+										$('.box-modal-crop').fadeOut();
+										$('.profile').hide();
+										$('.blackcover').fadeOut();
+										return false;
+									});
+									
+								});
+
+								// 제목 미리보기
+								$(document).on("keyup", '#upload-title', function() {
+									$('.box-thumbnail .title').text($(this).val());
+								});
+
+								// 썸네일 첨부 클릭
+								$(document).on("click", ".btn-thumbnail, #preview-pane", function(){
+									$("#image-upload").click();
+									return false;
+								});
+							</script>
+				        </div>
+				        <p class="desc">* <span class="required">100 x 100</span> 픽셀 크기의 이미지를 권장합니다.</p>	
+				    </div>
+			        <div class="box-input">
+			        	<div class="box-nickname">
+			        		<p class="desc">* 한번 정한 별명은 변경할 수 없습니다. <span class="point">(필수)</span></p>
+							<label class="">별명</label>
+							<input type="text" class="user-name require-info" name="name" value="{{ old('name') }}" placeholder="별명을 입력해주세요." data-csrf-token="{{ csrf_token() }}" data-url="{{ url('/articles/usercheck') }}">
+							<p class="condition error">
+								별명을 입력해주세요.
+							</p>
+							<script>
+								$(function(){
+									var infoLength = $('.wrap-register .require-info').length;
+
+									// 빈값 에러
+									$('.require-info').on("keyup, blur", function(){
+
+										if ($(this).hasClass('user-name')) {
+											var userName = $(this).val();
+											var csrfToken = $(this).data("csrfToken");
+											var url = $(this).data("url");
+											var rule = /[ \{\}\[\]\/?.,;:|\)*~`!^\-_+┼<>@\#$%&\'\"\\\(\=]/gi; //특수문자 
+
+											if (rule.test(userName)) {
+												userName = userName.replace(rule, "");
+												$(this).val(userName);
+											} else {
+												if (userName == '') {
+													$('.condition').text("별명을 입력해주세요.").addClass('error');
+												} else {
+													$.ajax({
+														type : 'post',
+														url : url,
+														data : {
+															name: userName,
+															_token: csrfToken,
+															xhr: 'true'
+														}
+													}).done(function (data){
+														if (data == 'already') {
+															$('.condition').text("이미 사용중인 별명입니다.").addClass('error');
+															$('.wrap-register .btn-regist').addClass('disabled');
+														} else if (data == 'none') {
+															$('.condition').text("사용 가능한 별명입니다.").removeClass('error');
+															$('input[name=name]').removeClass('errorfocus');
+
+															if ($('.wrap-register .error').length == 0 && $('.i-agree').length == 2) {
+																$('.wrap-register .btn-regist').removeClass('disabled');
+															} else {
+																$('.wrap-register .btn-regist').addClass('disabled');
+															} 
+														}
+													});	
+												}
+											}
+										} 
+
+										if ($(this).hasClass('user-email')) {
+											var userEmail = $(this).val();
+											var csrfToken = $(this).data("csrfToken");
+											var url = $(this).data("url");
+	
+											$.ajax({
+												type : 'post',
+												url : url,
+												data : {
+													email: userEmail,
+													_token: csrfToken,
+													xhr: 'true'
+												}
+											}).done(function (data){
+												if (data == 'already') {
+													$('.box-email .desc').text("이미 사용중인 이메일입니다.").addClass('error');
+													$('.wrap-register .btn-regist').addClass('disabled');
+												} else if (data == 'none') {
+													$('.box-email .desc').text("사용 가능한 이메일입니다.").removeClass('error');
+													$('input[name=email]').removeClass('errorfocus');
+
+													if ($('.wrap-register .error').length == 0 && $('.i-agree').length == 2) {
+														$('.wrap-register .btn-regist').removeClass('disabled');
+													} else {
+														$('.wrap-register .btn-regist').addClass('disabled');
+													} 
+												}
+											});	
+											
+										}
+
+										if ($(this).hasClass('onlynum')) {
+											var value = $(this).val();
+											var rule = /[^0-9]/;
+											if (rule.test(value)) {
+												value = value.replace(rule, "");
+												$(this).val(value);
+											}
+										}
+
+										for (var i = 0; i < infoLength; i++) {
+
+											if ($('.require-info').eq(i).val() == '') { // 빈값이면 에러 넣기
+												$('.require-info').eq(i).addClass('error');
+											} else { 
+												$('.require-info').eq(i).removeClass('error');	// 값이 있으면 에러 제거
+											}
+										}
+
+										if ($('.wrap-register .error').length == 0 && $('.i-agree').length == 2) {
+											$('.wrap-register .btn-regist').removeClass('disabled');
+										} else {
+											$('.wrap-register .btn-regist').addClass('disabled');
+										} 
+									});
+
+								});
+
+								$(document).on("click", ".wrap-register .box-right .box-agree label", function(){
+									$(this).toggleClass('i-agree');
+
+									if ($('.wrap-register .error').length == 0 && $('.i-agree').length == 2) {
+										$('.wrap-register .btn-regist').removeClass('disabled');
+									} else {
+										$('.wrap-register .btn-regist').addClass('disabled');
+									}
+								});
+
+							</script>
+						</div>
+						<div>
+							<label for="">자기소개</label>
+							<textarea name="introduction" id="" cols="30" rows="5" placeholder="자기소개를 입력해주세요."></textarea>
+						</div>
+			        </div>	
+				</div>
+				<p class="recommend">* 아래의 정보를 <span class="required">빠짐없이</span> 입력해주세요.</p>	
+				<div class="box-required cf">
+					<div class="box-input">
+						<div class="box-phone">
+							<label class="">휴대폰 번호</label>
+							<div class="box-num box-info">
+								<input class="require-info onlynum" type="text" name="p_num1" maxlength="3">
+								<input class="require-info onlynum" type="text" name="p_num2" maxlength="4">
+								<input class="require-info onlynum" type="text" name="p_num3" maxlength="4">
+							</div>
+						</div>
+
+						<div class="box-info box-email">
+							<label class="">이메일</label>
+							<input type="email" class="require-info user-email" name="email" value="{{ old('email') }}" placeholder="이메일을 입력해주세요." data-csrf-token="{{ csrf_token() }}" data-url="{{ url('/articles/emailcheck') }}">
+							<p class="desc">비밀번호 찾기시에 사용됩니다.</p>
+						</div>
+
+						<div class="box-info">
+							<label class="">비밀번호</label>
+							<input type="password" class="require-info" name="password" placeholder="비밀번호를 입력해주세요.">
+						</div>
+
+						<div class="box-info">
+							<label class="">비밀번호 확인</label>
+							<input type="password" class="require-info password-check" name="password_confirmation" placeholder="비밀번호를 확인해주세요.">
+						</div>		
+					</div>		
+				</div>
+				<div class="box-agree">
+					<div>
+						<input class="blind" type="checkbox" name="agree1" id="agree1">
+						<label for="agree1">개인정보취급방침에대한 내용을 충분히 읽고 이해하였으며 이에 동의합니다.</label>
 					</div>
-				</a>
-			    <input class="blind" type="file" name="image" id="image-upload" accept="image/*"/>
-				<script type="text/javascript">
-					$(function(){
+					<div>
+						<input class="blind" type="checkbox" name="agree2" id="agree2">
+						<label for="agree2">이용약관에대한 내용을 충분히 읽고 이해하였으며 이에 동의합니다.</label>
+					</div>
+				</div>
+			</div>	
+		</div>
+		<button class="btn-regist disabled" type="submit" class="">
+			회원가입
+		</button>
+		<script>
+		$(document).on("click", ".wrap-register .btn-regist", function(){
+			if (!$(this).hasClass('disabled')) {
 
-						// 이미지 썸네일 미리보기
-						$('.confirm').click(function(){
-							$(".box-thumbnail #preview-pane").remove();
-							$("#preview-pane").clone().prependTo(".box-thumbnail");
-							$(".box-thumbnail #preview-pane").removeClass("blind");
-							$('.box-modal-crop').fadeOut();
-							$('.blackcover').fadeOut();
-							return false;
-						});
-						
-					});
+				// validation
+				if ($('input[name=p_num1]').val().length < 3) {
+					$('input[name=p_num1]').addClass('errorfocus');
+				}
 
-					// 제목 미리보기
-					$(document).on("keyup", '#upload-title', function() {
-						$('.box-thumbnail .title').text($(this).val());
-					});
+				if ($('input[name=p_num2]').val().length < 3) {
+					$('input[name=p_num2]').addClass('errorfocus');
+				}
 
-					// 썸네일 첨부 클릭
-					$(document).on("click", ".btn-thumbnail", function(){
-						$("#image-upload").click();
-						return false;
-					});
+				if ($('input[name=p_num3]').val().length < 4) {
+					$('input[name=p_num3]').addClass('errorfocus');
+				}
 
-					$(document).on("change", "#image-upload", function(){
-						console.log('sadf');
-						return false;
-					});
-				</script>
-				<p class="desc">* <span class="point">580 x 580</span> 픽셀 크기의 이미지를 권장합니다.<span class="required">(필수)</span></p>
-	        </div>
+				if ($('input[name=password_confirmation]').val() != $('input[name=password]').val()) {
+					$('input[name=password_confirmation]').addClass('errorfocus');
+				}
 
-			<div class="">
-				<label class="">닉네임</label>
-				<input type="text" class="" name="name" value="{{ old('name') }}">
-			</div>
+				if ($('.wrap-register .condition').hasClass('error')) {
+					$('input[name=name]').addClass('errorfocus');					
+				}
 
-			<div class="">
-				<label class="">이메일</label>
-				<input type="email" class="" name="email" value="{{ old('email') }}">
-			</div>
-
-			<div class="">
-				<label class="">비밀번호</label>
-				<input type="password" class="" name="password">
-			</div>
-
-			<div class="">
-				<label class="">비밀번호 확인</label>
-				<input type="password" class="" name="password_confirmation">
-			</div>
-
-			<button type="submit" class="">
-				Register
-			</button>
-
-		</form>
-	</div>	
+				// 에러가 없다면 submit
+				if ($('.errorfocus').length == 0) {
+					$('.regist-form').submit();
+				} else {
+					return false;
+				}
+			} else {
+				return false;
+			}
+		});
+		</script>
+	</form>
 </div>
 @endsection
 

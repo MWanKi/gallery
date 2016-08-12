@@ -97,8 +97,40 @@ class ArticleController extends Controller
         return count($data);
     }
 
+    function usercheck(Request $request)
+    {
+        $users = User::get();
 
-    function edit($id, Request $request){
+        $response = 'none';
+
+        foreach($users as $user) {
+            if ($user->name == $request->name) {
+                $response = 'already';
+                break;
+            }
+        }
+        
+        return $response;
+    }
+
+    function usercheck(Request $request)
+    {
+        $users = User::get();
+
+        $response = 'none';
+
+        foreach($users as $user) {
+            if ($user->email == $request->email) {
+                $response = 'already';
+                break;
+            }
+        }
+        
+        return $response;
+    }
+
+    function edit($id, Request $request)
+    {
 
         $article = Article::find($id);
 
