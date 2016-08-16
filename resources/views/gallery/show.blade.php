@@ -177,7 +177,7 @@
 								<td>
 									<div class="box-profile">
 										@if(auth()->guest())
-											<img src="{{ url('/images/logo.png') }}" alt="">
+											<img src="{{ url('/images/profile2.png') }}" alt="">
 										@elseif(auth()->user()->image == '')
 											<img src="{{ url('/images/profile2.png') }}" alt="">
 										@else 
@@ -338,10 +338,10 @@
 								</div>
 							@endif
 							<a class="profile" href="#">
-								@if (array_get($comment->user, 'image') == '')
+								@if ($comment->user->image == '')
 									<img src="{{ url('/images/profile2.png') }}" alt="">
 								@else 
-									<img src="{{ url('/uploads/'.array_get($comment->user, 'image')) }}" alt="">
+									<img src="{{ url('/uploads/'.$comment->user->image) }}" alt="">
 								@endif
 							</a>
 						</li>
@@ -354,10 +354,10 @@
 		<h3>작가의 프로필</h3>
 		<div class="box-profile cf">
 			<div class="image">
-				@if(array_get($article->user, 'image') == '')
+				@if($article->user->image == '')
 					<img src="{{ url('/images/profile2.png') }}" alt="">
 				@else 
-					<img src="{{ url('/uploads/'.array_get($article->user, 'image')) }}" alt="">
+					<img src="{{ url('/uploads/'.$article->user->image) }}" alt="">
 				@endif
 			</div>
 			<span class="job">Artist</span>
@@ -375,7 +375,11 @@
 					<a href="{{ url('/articles/'.$article->id) }}" data-name="유저네임">
 						<img src="{{ url('/uploads/'.$article->image) }}" alt="{{ $article->title }}" class="thumbnail">
 						<div class="desc-box">
-							<img src="{{ url('images/logo.png') }}" alt="" class="profile">
+							@if($article->user->image == '')
+								<img class="profile" src="{{ url('/images/profile.png') }}" alt="">
+							@else 
+								<img class="profile" src="{{ url('/uploads/'.$article->user->image) }}" alt="">
+							@endif
 							<span class="title">{{ $article->title }}</span>
 							<span class="writer">by. {{ $article->writer_key }}</span>
 						</div>

@@ -8,6 +8,8 @@ use App\Http\Requests;
 
 use App\Article;
 
+use App\Comment;
+
 use App\URL;
 
 use App\User;
@@ -25,7 +27,7 @@ class ArticleController extends Controller
     {
     	$articles = Article::where('deleted', false)
 					    	->orderBy('created_at', 'desc')
-                            ->take(12)
+                            ->take(15)
 					    	->get();
 
     	return view('gallery.index', [
@@ -33,15 +35,15 @@ class ArticleController extends Controller
 		]);
     }
 
-    function category(Request $request) 
+    function categoryA(Request $request) 
     {
         $articles = Article::where('deleted', false)
-                            ->where('category', $request->c)
+                            ->where('category', 1)
                             ->orderBy('created_at', 'desc')
-                            ->take(12)
+                            ->take(15)
                             ->get();
 
-        return view('gallery.category', [
+        return view('gallery.categoryA', [
             'articles' => $articles
         ]);
     }
@@ -53,8 +55,7 @@ class ArticleController extends Controller
 
     function show($id) 
     {
-        $article = Article::where('deleted', false)->find($id);        
-
+        $article = Article::with('comments.user')->where('deleted', false)->find($id);        
     	$users = User::get();
 
         if (!auth()->guest()) {

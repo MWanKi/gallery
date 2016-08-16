@@ -98,40 +98,48 @@
 				            	alert("가로 사이즈가 1200픽셀보다 작은 이미지를 업로드해주세요.");
 				            } else {
 				            	if (real_width < 290) {
-				            		alert("가로 사이즈가 290픽셀보다 큰 이미지를 업로드해주세요.");
+				            		if (real_height < 290) {
+				            			alert("가로, 세로 사이즈가 290픽셀보다 큰 이미지를 업로드해주세요.");	
+				            		} else {
+				            			alert("가로, 세로 사이즈가 290픽셀보다 큰 이미지를 업로드해주세요.");	
+				            		}
 				            	} else {
-				            		$('.box-modal-crop').fadeIn();
-						        	$('.blackcover').fadeIn();
-						        	$('.box-image').children().remove();
-									$('.box-image').append("<img id='target'>").show();
+				            		if (real_height < 290) {
+				            			alert("가로, 세로 사이즈가 290픽셀보다 큰 이미지를 업로드해주세요.");	
+				            		} else {
+					            		$('.box-modal-crop').fadeIn();
+							        	$('.blackcover').fadeIn();
+							        	$('.box-image').children().remove();
+										$('.box-image').append("<img id='target'>").show();
 
-					            	$('#target').attr('src',reader.result);
-					            	$pimg.attr('src',reader.result);
-					            	$('#target').css({'width':'auto','height':'auto'});
-							        $('#target').Jcrop({
-							        	onChange:    showCoords,
-							        	onSelect:    showCoords,
-							            bgColor:     'black',
-							            bgOpacity:   .4,
-							            setSelect:   [ 100, 100, 50, 50 ],
-							            aspectRatio: 1 / 1,
-							            minSize: [290, 290],
-							        }, function(){
-									    // Use the API to get the real image size
-									    var bounds = this.getBounds();
-									    boundx = bounds[0];
-									    boundy = bounds[1];
+						            	$('#target').attr('src',reader.result);
+						            	$pimg.attr('src',reader.result);
+						            	$('#target').css({'width':'auto','height':'auto'});
+								        $('#target').Jcrop({
+								        	onChange:    showCoords,
+								        	onSelect:    showCoords,
+								            bgColor:     'black',
+								            bgOpacity:   .4,
+								            setSelect:   [ 100, 100, 50, 50 ],
+								            aspectRatio: 1 / 1,
+								            minSize: [290, 290],
+								        }, function(){
+										    // Use the API to get the real image size
+										    var bounds = this.getBounds();
+										    boundx = bounds[0];
+										    boundy = bounds[1];
 
-									    // Store the API in the jcrop_api variable
-									    _jcrop_api = this;
+										    // Store the API in the jcrop_api variable
+										    _jcrop_api = this;
 
-									    // Move the preview into the jcrop container for css positioning
-									    $preview.appendTo(_jcrop_api.ui.holder);
-								    });
+										    // Move the preview into the jcrop container for css positioning
+										    $preview.appendTo(_jcrop_api.ui.holder);
+									    });
 
-							        modal = $('.box-modal-crop');
-								    modalWidth = modal.width();
-								    modal.css({'margin-left':-modalWidth/2});
+								        modal = $('.box-modal-crop');
+									    modalWidth = modal.width();
+									    modal.css({'margin-left':-modalWidth/2});
+									}
 				            	}
 				            }
 				        }

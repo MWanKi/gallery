@@ -29,7 +29,8 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+    'host' => env('MAIL_HOST', 'smtp.gmail.com'),
+    // 'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
 
     /*
     |--------------------------------------------------------------------------
@@ -55,7 +56,7 @@ return [
     |
     */
 
-    'from' => ['address' => null, 'name' => null],
+    'from' => ['address' => 'www@cside.co.kr', 'name' => 'www'],
 
     /*
     |--------------------------------------------------------------------------
@@ -81,6 +82,7 @@ return [
     |
     */
 
+    // 'username' => env('www@cside.co.kr'),
     'username' => env('MAIL_USERNAME'),
 
     /*
@@ -94,6 +96,7 @@ return [
     |
     */
 
+    // 'password' => env('cside0201!'),
     'password' => env('MAIL_PASSWORD'),
 
     /*

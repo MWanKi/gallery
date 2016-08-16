@@ -55,19 +55,24 @@
 					<a class="btn-upload disabled" href="{{ url('auth/login') }}">업로드</a>
 				</li>
 			@else
-				<li class="li-nav">
-					{{ auth()->user()->name }}
-				</li>
-				<li class="li-nav">
-					<a class="link-login" href="{{ url('/auth/logout') }}">로그아웃</a>	
+				<li class="li-nav li-my">
+					<a href="#">
+						<div class="box-mini-profile">
+							@if (auth()->user()->image == '')
+								<img src="{{ url('/images/profile2.png') }}" alt="">
+							@else
+								<img src="{{ url('/uploads/'.auth()->user()->image) }}" alt="">
+							@endif	
+						</div>
+					</a>
+					<ul class="ul-mypage">
+						<li><a href="#">내 정보 관리</a></li>
+						<li><a href="{{ url('/auth/logout') }}">로그아웃</a>	</li>
+					</ul>
 				</li>
 				<li class="li-nav">
 					<a class="btn-upload" href="{{ url('articles/create') }}">업로드</a>
 				</li>
-
-				
-
-
 			@endif
 			<!-- <li class="li-nav">
 				<form action="" method="post">

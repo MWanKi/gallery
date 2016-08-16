@@ -100,6 +100,8 @@
 				            	if (real_width < 290) {
 				            		if (real_height < 290) {
 				            			alert("가로, 세로 사이즈가 290픽셀보다 큰 이미지를 업로드해주세요.");	
+				            		} else {
+				            			alert("가로, 세로 사이즈가 290픽셀보다 큰 이미지를 업로드해주세요.");	
 				            		}
 				            	} else {
 				            		if (real_height < 290) {
