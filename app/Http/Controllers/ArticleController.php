@@ -33,6 +33,19 @@ class ArticleController extends Controller
 		]);
     }
 
+    function category(Request $request) 
+    {
+        $articles = Article::where('deleted', false)
+                            ->where('category', $request->c)
+                            ->orderBy('created_at', 'desc')
+                            ->take(12)
+                            ->get();
+
+        return view('gallery.category', [
+            'articles' => $articles
+        ]);
+    }
+
     function create() 
     {
         return view('gallery.create');
@@ -40,9 +53,9 @@ class ArticleController extends Controller
 
     function show($id) 
     {
-    	$article = Article::where('deleted', false)->find($id);
-        // $writers = User::where('deleted, false')->get();
-        $users = User::get();
+        $article = Article::where('deleted', false)->find($id);        
+
+    	$users = User::get();
 
         if (!auth()->guest()) {
             $writer = User::where('name', auth()->user()->name)->first();
@@ -113,7 +126,7 @@ class ArticleController extends Controller
         return $response;
     }
 
-    function usercheck(Request $request)
+    function emailcheck(Request $request)
     {
         $users = User::get();
 

@@ -37,8 +37,11 @@ body {background:#fbfbfb;}
 }
 .wrap-header .box-header {width:1280px; margin:0 auto;}
 .wrap-header .box-header .logo {float:left;}
-.wrap-header .box-header .logo img {height:30px; margin:15px 0 0;}
-.wrap-header .box-header .ul-nav .li-nav {float:left; position:relative;}
+.wrap-header .box-header .logo img {height:30px; margin:15px 30px 0 0;}
+.wrap-header .box-header .ul-nav {float: left;}
+.wrap-header .box-header .ul-nav .li-nav {margin:0 20px; padding:24px 0; float:left; position:relative;}
+.wrap-header .box-header .ul-nav .li-nav > a {color:#565656;}
+.wrap-header .box-header .ul-nav .li-nav > a:hover {color:#ed642c;}
 .wrap-header .box-header .ul-nav .li-nav .ul-child {display:none; position:absolute; top:20px; left:20px;}
 .wrap-header .box-header .ul-user {float: right;}
 .wrap-header .box-header .ul-user .li-nav {float: left; position:relative;}
@@ -261,8 +264,8 @@ body {background:#fbfbfb;}
 .wrap-register .box-layout {width:540px; height:500px; padding:20px 30px 30px; border-right:1px solid #d4d4d4; border-bottom:2px solid #d4d4d4; box-shadow:0 0 2px rgba(0,0,0,0.3); background:#fff;}
 .wrap-register .box-left {float: left;}
 .wrap-register .box-right {float: right;}
-.wrap-register h2 {color:#565656; font-size:30px; text-align:left; padding:0 0 25px; width:360px;}
-.wrap-register h2 .welcome {display:inline-block; margin:-5px 0 0; color:#787878; font-size:12px; text-align:left; line-height:1.6; float: right;}
+.wrap-register h2 {color:#565656; font-size:30px; text-align:left; padding:0 0 25px;}
+.wrap-register h2 .welcome {display:inline-block; position:relative; top:3px; margin:-5px 0 0 20px; color:#787878; font-size:12px; text-align:left; line-height:1.6;}
 .wrap-register h3 {color:#565656; font-size:16px; text-align:left; margin:0 0 15px; padding:0 0 15px; border-bottom:1px solid #ccc;}
 .wrap-register .desc {font-size:12px; color:#9a9a9a;}
 .wrap-register .cover {padding:20px; border:1px solid #d4d4d4; margin:0 0 30px; background:#fbfbfb;}
@@ -284,7 +287,8 @@ body {background:#fbfbfb;}
 .wrap-register .box-right .box-required {clear: both; float:left;}
 .wrap-register .box-right .box-required .box-info {clear: both; margin:0px 0 15px; height:31px;}
 .wrap-register .box-right .box-required .box-email {height:45px;}
-.wrap-register .box-right .box-required .box-email .desc {padding:5px 10px 0 0; clear:both; text-align:right;}
+.wrap-register .box-right .box-required .box-email .desc {padding:5px 10px 0 0; clear:both; text-align:right; color:#3ead3e;}
+.wrap-register .box-right .box-required .box-email .desc.error {color:#ed642c;}
 .wrap-register .box-right .box-required label {float: left; margin:5px 0 0; width:100px; display:inline-block; font-size:14px; color:#565656; border-left:2px solid #ed642c; padding:5px 10px;}
 .wrap-register .box-right .box-required input {width:151px; float: left; padding:7px; font-size:12px; background:#fff; border:1px solid #d4d4d4; color:#565656;}
 .wrap-register .box-right .box-required .box-phone .box-num {float: left; clear:none;}
@@ -293,7 +297,7 @@ body {background:#fbfbfb;}
 .wrap-register .box-right .recommend .required {color:#ed642c;}
 .wrap-register .box-right .box-required .box-input {float: left;}
 .wrap-register .box-right .box-agree {width:230px; padding:0 0 0 10px; float:left;}
-.wrap-register .box-right .box-agree label {display:block; padding:4px 10px; background:#f7e4e0; border:1px solid #ecc8c1; overflow: hidden; color:#e96f4c; font-size:12px; line-height:1.6; border-radius:5px; margin:0 0 10px;}
+.wrap-register .box-right .box-agree label {display:block; padding:4px 10px; background:#f7e4e0; border:1px solid #ecc8c1; overflow: hidden; color:#e96f4c; font-size:12px; line-height:1.6; border-radius:5px; margin:0 0 10px; cursor: pointer;}
 .wrap-register .box-right .box-agree label:before {display:inline-block; position:relative; top:4px; width:15px; height:15px; margin:0 7px 0 0; border:1px solid #d4d4d4; background:#fff; cursor: pointer; border-radius:4px; content:'';}
 .wrap-register .box-right .box-agree input:checked + label {background:#cdffcd; border:1px solid #5ed75e; color:#3ead3e;}
 .wrap-register .box-right .box-agree input:checked + label:before {background:#fff url('../images/checks.png') center center no-repeat; background-size:12px;}
@@ -306,13 +310,19 @@ body {background:#fbfbfb;}
 
 
 .wrap-register .errorfocus {border:1px solid #ed642c !important;}
-.wrap-register .btn-regist {float:right; clear:both; margin:20px 0 0; width:602px; height:45px; line-height:40px; text-align:center; font-size:16px; color:#fff; background:#ed642c; border:1px solid #ed642c; border-bottom:3px solid #d35826; box-shadow: inset 0 1px #f2c0b5; border-radius:5px; cursor: pointer;}
+.wrap-register .btn-regist {float:right; clear:both; margin:20px 0 0; width:602px; height:45px; line-height:49px; text-align:center; font-size:16px; color:#fff; background:#ed642c; border:1px solid #ed642c; border-bottom:3px solid #d35826; box-shadow: inset 0 1px #f2c0b5; border-radius:5px; cursor: pointer;}
 .wrap-register .btn-regist:hover {background:#e35216; border:1px solid #e35216; border-bottom:3px solid #bb4414; box-shadow: inset 0 1px #eea08d;}
 .wrap-register .btn-regist.disabled {background:#b4b4b4; border:1px solid #9a9a9a; border-bottom:3px solid #9a9a9a; box-shadow: inset 0 1px #fbfbfb; cursor:default;}
 .wrap-register .btn-regist.disabled:hover {background:#b4b4b4; border:1px solid #9a9a9a; border-bottom:3px solid #9a9a9a; box-shadow: inset 0 1px #fbfbfb; cursor:default;}
 
 
-
+.wrap-find-password h2 {width:560px; margin:0 auto;}
+.wrap-find-password .box-layout {width:500px; height:auto; margin:0 auto; padding:30px;}
+.wrap-find-password .box-layout div {margin:0 auto; text-align:center;}
+.wrap-find-password label {width:80px; display:inline-block; font-size:14px; color:#565656; border-left:2px solid #ed642c; padding:5px 10px;}
+.wrap-find-password input[type=email] {width:260px; height:34px; border:1px solid #d4d4d4; text-indent:10px; font-size:13px; color:#565656;}
+.wrap-find-password button {display:inline-block; width:200px; height:45px; margin:20px 0 0; line-height:39px; text-align:center; font-size:14px; color:#fff; background:#ed642c; border:1px solid #ed642c; border-bottom:3px solid #d35826; box-shadow: inset 0 1px #f2c0b5; border-radius:5px; cursor: pointer;}
+.wrap-find-password button:hover {background:#e35216; border:1px solid #e35216; border-bottom:3px solid #bb4414; box-shadow: inset 0 1px #eea08d;}
 
 
 

@@ -8,7 +8,7 @@ class Comment extends Model
 {
     public function user()
 	{
-	    return $this->belongsTo('App\User');
+	    return $this->hasOne('App\User', 'id', 'user_id');
 	}
 
 	public function article()

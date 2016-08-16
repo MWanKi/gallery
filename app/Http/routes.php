@@ -13,12 +13,11 @@
 
 Route::resource('/','ArticleController');
 Route::resource('articles','ArticleController');
+Route::resource('category','ArticleController@category');
 Route::resource('articles/{article_id}/like','ArticleController@like');
 Route::resource('articles/{article_id}/comments','CommentController');
 Route::resource('articles/usercheck','ArticleController@usercheck');
 Route::resource('articles/emailcheck','ArticleController@emailcheck');
 Route::get('auth/logout','Auth\AuthController@logout');
-
-
 
 

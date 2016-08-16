@@ -12,7 +12,15 @@
 	</div>
 @endif
 
-
+<style>
+	.jcrop-holder div {
+  -webkit-border-radius: 50% !important;
+  -moz-border-radius: 50% !important;
+  border-radius: 50% !important;
+  margin: -1px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+</style>
 <span class="blackcover"></span>
 
 	<script language="Javascript">
@@ -226,7 +234,7 @@
 									var infoLength = $('.wrap-register .require-info').length;
 
 									// 빈값 에러
-									$('.require-info').on("keyup, blur", function(){
+									$('.require-info').bind("keyup blur", function(){
 
 										if ($(this).hasClass('user-name')) {
 											var userName = $(this).val();
@@ -272,36 +280,49 @@
 											var userEmail = $(this).val();
 											var csrfToken = $(this).data("csrfToken");
 											var url = $(this).data("url");
-	
-											$.ajax({
-												type : 'post',
-												url : url,
-												data : {
-													email: userEmail,
-													_token: csrfToken,
-													xhr: 'true'
-												}
-											}).done(function (data){
-												if (data == 'already') {
-													$('.box-email .desc').text("이미 사용중인 이메일입니다.").addClass('error');
-													$('.wrap-register .btn-regist').addClass('disabled');
-												} else if (data == 'none') {
-													$('.box-email .desc').text("사용 가능한 이메일입니다.").removeClass('error');
-													$('input[name=email]').removeClass('errorfocus');
+											var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i; 
 
-													if ($('.wrap-register .error').length == 0 && $('.i-agree').length == 2) {
-														$('.wrap-register .btn-regist').removeClass('disabled');
-													} else {
+											if (userEmail == '') {
+												$('.box-email .desc').text("이메일을 입력해주세요.").addClass('error');
+											} else {
+												$.ajax({
+													type : 'post',
+													url : url,
+													data : {
+														email: userEmail,
+														_token: csrfToken,
+														xhr: 'true'
+													}
+												}).done(function (data){
+													if (data == 'already') {
+														$('.box-email .desc').text("이미 사용중인 이메일입니다.").addClass('error');
 														$('.wrap-register .btn-regist').addClass('disabled');
-													} 
-												}
-											});	
-											
+													} else if (data == 'none') {
+														if (!regExp.test(userEmail)) {
+															$('.box-email .desc').text("이메일 형식이 올바르지 않습니다.").addClass('error');
+														} else {
+															$('.box-email .desc').text("사용 가능한 이메일입니다.").removeClass('error');
+															$('input[name=email]').removeClass('errorfocus');	
+														}
+														
+														if ($('.wrap-register .error').length == 0 && $('.i-agree').length == 2) {
+															$('.wrap-register .btn-regist').removeClass('disabled');
+														} else {
+															$('.wrap-register .btn-regist').addClass('disabled');
+														} 
+													}
+												});	
+											}
 										}
 
 										if ($(this).hasClass('onlynum')) {
 											var value = $(this).val();
 											var rule = /[^0-9]/;
+											
+											if (value.length >= 3) {
+												$(this).removeClass('error errorfocus');
+											}
+
 											if (rule.test(value)) {
 												value = value.replace(rule, "");
 												$(this).val(value);
@@ -385,43 +406,52 @@
 				</div>
 			</div>	
 		</div>
-		<button class="btn-regist disabled" type="submit" class="">
+		<a href="#" class="btn-regist disabled" type="submit" class="">
 			회원가입
-		</button>
+		</a>
 		<script>
 		$(document).on("click", ".wrap-register .btn-regist", function(){
-			if (!$(this).hasClass('disabled')) {
+			setTimeout(function() {
+				if (!$(this).hasClass('disabled')) {
 
 				// validation
 				if ($('input[name=p_num1]').val().length < 3) {
 					$('input[name=p_num1]').addClass('errorfocus');
-				}
+					}
 
-				if ($('input[name=p_num2]').val().length < 3) {
-					$('input[name=p_num2]').addClass('errorfocus');
-				}
+					if ($('input[name=p_num2]').val().length < 3) {
+						$('input[name=p_num2]').addClass('errorfocus');
+					}
 
-				if ($('input[name=p_num3]').val().length < 4) {
-					$('input[name=p_num3]').addClass('errorfocus');
-				}
+					if ($('input[name=p_num3]').val().length < 4) {
+						$('input[name=p_num3]').addClass('errorfocus');
+					}
 
-				if ($('input[name=password_confirmation]').val() != $('input[name=password]').val()) {
-					$('input[name=password_confirmation]').addClass('errorfocus');
-				}
+					var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i; 
 
-				if ($('.wrap-register .condition').hasClass('error')) {
-					$('input[name=name]').addClass('errorfocus');					
-				}
+					if ($('input[name=email]').val() == '' || !regExp.test($('input[name=email]').val())) {
+						$('input[name=email]').addClass('errorfocus');
+					}
 
-				// 에러가 없다면 submit
-				if ($('.errorfocus').length == 0) {
-					$('.regist-form').submit();
+					if ($('input[name=password_confirmation]').val() != $('input[name=password]').val()) {
+						$('input[name=password_confirmation]').addClass('errorfocus');
+					}
+
+					if ($('.wrap-register .condition').hasClass('error')) {
+						$('input[name=name]').addClass('errorfocus');					
+					}
+
+					// 에러가 없다면 submit
+					if ($('.errorfocus').length == 0) {
+						$('.regist-form').submit();
+					} else {
+						return false;
+					}
 				} else {
 					return false;
 				}
-			} else {
-				return false;
-			}
+			}, 300);
+			
 		});
 		</script>
 	</form>

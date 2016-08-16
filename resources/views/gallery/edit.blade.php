@@ -190,7 +190,7 @@
 						@if (auth()->user()->image == '')
 							<img src="{{ url('images/profile.png') }}" alt="" class="profile">
 						@else
-
+							<img src="{{ url('uploads/'.auth()->user()->image) }}" alt="" class="profile">
 						@endif
 						<span class="title">&nbsp;</span>
 						<span class="writer">by. {{ auth()->user()->name }}</span>

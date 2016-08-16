@@ -8,7 +8,7 @@ class Article extends Model
 {
 	public function user()
 	{
-	    return $this->belongsTo('App\User');
+	    return $this->hasOne('App\User', 'name', 'writer_key');
 	}
 
     public function comments() {

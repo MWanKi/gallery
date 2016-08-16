@@ -82,22 +82,25 @@ class AuthController extends Controller
             'password' => 'required|min:6|confirmed',
         ]);
 
-        $imageName = time() . '.' . $data['image']
+        if (isset($data['image'])) {
+            $imageName = time() . '.' . $data['image']
                                  ->getClientOriginalExtension();
-            
-        // resizing an uploaded file
-        Image::make(
-            $data['image'])
-            ->crop(
-                $data['image_w'], 
-                $data['image_h'], 
-                $data['image_x'], 
-                $data['image_y'])
-            ->save('uploads/'.$imageName);
+                
+            // resizing an uploaded file
+            Image::make(
+                $data['image'])
+                ->crop(
+                    $data['image_w'], 
+                    $data['image_h'], 
+                    $data['image_x'], 
+                    $data['image_y'])
+                ->save('uploads/'.$imageName);
 
-
-
-        $data['image'] = $imageName;
+            $data['image'] = $imageName;
+        } else {
+            $data['image'] = '';
+        }
+        
 
         if ($validator->fails()) {
             return redirect('/auth/register')

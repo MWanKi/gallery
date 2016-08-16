@@ -176,7 +176,13 @@
 							<tr>
 								<td>
 									<div class="box-profile">
-										<img src="{{ url('/images/logo.png') }}" alt="">
+										@if(auth()->guest())
+											<img src="{{ url('/images/logo.png') }}" alt="">
+										@elseif(auth()->user()->image == '')
+											<img src="{{ url('/images/profile2.png') }}" alt="">
+										@else 
+											<img src="{{ url('/uploads/'.auth()->user()->image) }}" alt="">
+										@endif
 									</div>
 								</td>
 								<td>
@@ -207,43 +213,43 @@
 				$('.btn-submit').click(function(){
 					if (!$(this).hasClass('disabled')) {
 						if ($('textarea[name=content]').val().length > 0) {
-							
-								$('textarea[name=content]').removeClass('error');
-								var name = $(this).data('name');
+						
+							$('textarea[name=content]').removeClass('error');
+							var name = $(this).data('name');
 
-								$.ajax({
-									type:'post',
-									url: "{{ url('/articles/'.$article->id.'/comments') }}",
-									data:{
-										name: name,
-										_token: $('textarea[name=content]').data('csrfToken'),
-										content: $('textarea[name=content]').val(),
-									}
-								}).done(function (data){
-									$('textarea[name=content]').val('');
+							$.ajax({
+								type:'post',
+								url: "{{ url('/articles/'.$article->id.'/comments') }}",
+								data:{
+									name: name,
+									_token: $('textarea[name=content]').data('csrfToken'),
+									content: $('textarea[name=content]').val(),
+								}
+							}).done(function (data){
+								$('textarea[name=content]').val('');
 
-									var comment = $(".li-new-data").clone();
+								var comment = $(".li-new-data").clone();
 
-									comment.find('.writer').text(data['name']);
-									comment.find('.reg-date').text(data['created_at']);
+								comment.find('.writer').text(data['name']);
+								comment.find('.reg-date').text(data['created_at']);
 
-									userList = [
-									@foreach($users as $user)
-									    "{{ $user->name }}",
-									@endforeach
-									];
+								userList = [
+								@foreach($users as $user)
+								    "{{ $user->name }}",
+								@endforeach
+								];
 
-									for (var i = 0; i < userList.length; i++) {
-										data['content'] = data['content'].replace('@'+userList[i], '<a class="mention" href="#">'+userList[i]+'</a>');
-									}
-									comment.find('.comment-content').html(data['content']);
-									comment.appendTo('.box-data ul').fadeIn(500).removeClass('li-new-data').addClass('added-data');
-									
-									dataFind = $('.added-data').offset().top-500;
-									$('body').animate({scrollTop:dataFind}, 500, function(){
-										$('.added-data').removeClass('added-data');
-									});
+								for (var i = 0; i < userList.length; i++) {
+									data['content'] = data['content'].replace('@'+userList[i], '<a class="mention" href="#">'+userList[i]+'</a>');
+								}
+								comment.find('.comment-content').html(data['content']);
+								comment.appendTo('.box-data ul').fadeIn(500).removeClass('li-new-data').addClass('added-data');
+								
+								dataFind = $('.added-data').offset().top-500;
+								$('body').animate({scrollTop:dataFind}, 500, function(){
+									$('.added-data').removeClass('added-data');
 								});
+							});
 							
 						} else {
 							alert('댓글 내용을 입력해주세요.');
@@ -270,10 +276,16 @@
 							<a class="btn-delete-comment" href="#">삭제</a>
 						</div>
 						<a class="profile" href="#">
-							<img src="{{ url('/images/logo.png') }}" alt="">
+							@if(auth()->guest())
+								<img src="{{ url('/images/logo.png') }}" alt="">
+							@elseif(auth()->user()->image == '')
+								<img src="{{ url('/images/profile2.png') }}" alt="">
+							@else 
+								<img src="{{ url('/uploads/'.auth()->user()->image) }}" alt="">
+							@endif
 						</a>
 					</li>
-					@foreach($article->comments as $comment)
+					@foreach($article->comments as $comment)					
 						<li class="li-data">
 							<div class="box-writer">
 								<span class="writer">{{ $comment->name }}</span>
@@ -326,7 +338,11 @@
 								</div>
 							@endif
 							<a class="profile" href="#">
-								<img src="{{ url('/images/logo.png') }}" alt="">
+								@if (array_get($comment->user, 'image') == '')
+									<img src="{{ url('/images/profile2.png') }}" alt="">
+								@else 
+									<img src="{{ url('/uploads/'.array_get($comment->user, 'image')) }}" alt="">
+								@endif
 							</a>
 						</li>
 					@endforeach
@@ -338,7 +354,11 @@
 		<h3>작가의 프로필</h3>
 		<div class="box-profile cf">
 			<div class="image">
-				<img src="{{ url('/images/logo.png') }}" alt="">
+				@if(array_get($article->user, 'image') == '')
+					<img src="{{ url('/images/profile2.png') }}" alt="">
+				@else 
+					<img src="{{ url('/uploads/'.array_get($article->user, 'image')) }}" alt="">
+				@endif
 			</div>
 			<span class="job">Artist</span>
 			<span class="id">{{ $article->writer_key }}</span>

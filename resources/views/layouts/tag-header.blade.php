@@ -2,7 +2,7 @@
 <div class="wrap-header cf">
 	<div class="box-header">
 		<h1 class="logo"><a href="{{ url('/articles') }}"><img src="{{ url('images/logo(84.24px)_bk.png') }}" alt=""></a></h1>
-		<!-- <ul class="ul-nav cf"> -->
+		<ul class="ul-nav cf">
 			<!-- <li class="li-nav">
 				<a href="{{ url('/auth/login') }}">로그인</a>
 				<ul class="ul-child">
@@ -11,9 +11,9 @@
 					<li class="li-child"> <a href="">조건3</a> </li>
 				</ul>
 			</li> -->
-<!-- 
+
 			<li class="li-nav">
-				<a href="">갤러리A</a>
+				<a href="{{ url('/category?c=1') }}">카테고리A</a>
 				<ul class="ul-child">
 					<li class="li-child"> <a href="">조건1</a> </li>
 					<li class="li-child"> <a href="">조건2</a> </li>
@@ -22,14 +22,30 @@
 			</li>
 
 			<li class="li-nav">
-				<a href="">갤러리A</a>
+				<a href="{{ url('/category?c=2') }}">카테고리B</a>
 				<ul class="ul-child">
 					<li class="li-child"> <a href="">조건1</a> </li>
 					<li class="li-child"> <a href="">조건2</a> </li>
 					<li class="li-child"> <a href="">조건3</a> </li>
 				</ul>
-			</li> -->
-		<!-- </ul> -->
+			</li>
+			<li class="li-nav">
+				<a href="{{ url('/category?c=3') }}">카테고리C</a>
+				<ul class="ul-child">
+					<li class="li-child"> <a href="">조건1</a> </li>
+					<li class="li-child"> <a href="">조건2</a> </li>
+					<li class="li-child"> <a href="">조건3</a> </li>
+				</ul>
+			</li>
+			<li class="li-nav">
+				<a href="{{ url('/category?c=4') }}">카테고리D</a>
+				<ul class="ul-child">
+					<li class="li-child"> <a href="">조건1</a> </li>
+					<li class="li-child"> <a href="">조건2</a> </li>
+					<li class="li-child"> <a href="">조건3</a> </li>
+				</ul>
+			</li>
+		</ul>
 		<ul class="ul-user">
 			@if(auth()->guest())				
 				<li class="li-nav">

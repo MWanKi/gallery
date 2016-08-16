@@ -32,11 +32,21 @@ class CommentController extends Controller
 			$article = Article::where('deleted', false)->find($article_id);
 
 			$comment = new Comment;
+			$users = User::get();
+
 			$comment->article_id = $article_id;
 			$comment->name = $request->name;
-			$comment->content = $request->content;
-
+			$content = $request->content;
 			$comment->secret = false;
+			$comment->user_id = auth()->user()->id;
+
+			foreach($users as $user) {
+				$user_name = $user->name;
+				$content = str_replace('@'.$user_name, '<a class="mention" href="">'.$user_name.'</a>', $content);
+			}
+
+			$comment->content = $content;
+
 			$comment->save();
 
 			$data = array(
