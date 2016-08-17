@@ -32,7 +32,7 @@
 						<button type="submit" class="btn btn-primary">로그인</button>
 					</div>
 					<div class="box-etc">
-						<input class="blind" type="checkbox" name="remember" id="remember"> <label for="remember">정보 저장하기</label>
+						<input class="blind" type="checkbox" name="remember" id="remember"> <label for="remember">로그인 상태 유지하기</label>
 						<div>
 							<a class="btn btn-link" href="{{ url('/password/email') }}">비밀번호 찾기</a>
 							<span>/</span>

@@ -16,7 +16,8 @@ return [
     |
     */
 
-    'driver' => env('MAIL_DRIVER', 'smtp'),
+    'driver' => 'smtp',
+    // 'driver' => env('MAIL_DRIVER', 'smtp'),
 
     /*
     |--------------------------------------------------------------------------
@@ -29,7 +30,8 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.gmail.com'),
+    'host' => 'smtp.gmail.com',
+    // 'host' => env('MAIL_HOST', 'smtp.gmail.com'),
     // 'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
 
     /*
@@ -43,7 +45,8 @@ return [
     |
     */
 
-    'port' => env('MAIL_PORT', 587),
+    'port' => 587,
+    // 'port' => env('MAIL_PORT', 587),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,7 +59,8 @@ return [
     |
     */
 
-    'from' => ['address' => 'www@cside.co.kr', 'name' => 'www'],
+    'from' => array('address' => 'gallery@cside.co.kr', 'name' => 'cside'),
+    // 'from' => ['address' => 'www@cside.co.kr', 'name' => 'www'],
 
     /*
     |--------------------------------------------------------------------------
@@ -69,7 +73,8 @@ return [
     |
     */
 
-    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+    'encryption' => 'tls',
+    // 'encryption' => env('MAIL_ENCRYPTION', 'tls'),
 
     /*
     |--------------------------------------------------------------------------
@@ -83,7 +88,8 @@ return [
     */
 
     // 'username' => env('www@cside.co.kr'),
-    'username' => env('MAIL_USERNAME'),
+    'username' => 'nagi9304@gmail.com',
+    // 'username' => env('MAIL_USERNAME'),
 
     /*
     |--------------------------------------------------------------------------
@@ -97,7 +103,8 @@ return [
     */
 
     // 'password' => env('cside0201!'),
-    'password' => env('MAIL_PASSWORD'),
+    'password' => 'wjdekdns190',
+    // 'password' => env('MAIL_PASSWORD'),
 
     /*
     |--------------------------------------------------------------------------

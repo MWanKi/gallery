@@ -18,7 +18,6 @@
   -moz-border-radius: 50% !important;
   border-radius: 50% !important;
   margin: -1px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 </style>
 <span class="blackcover"></span>
@@ -405,6 +404,7 @@
 					</div>
 				</div>
 			</div>	
+			<img src="{{ url('/images/spinner.gif') }}" alt="" class="loading-icon">
 		</div>
 		<a href="#" class="btn-regist disabled" type="submit" class="">
 			회원가입
@@ -443,6 +443,8 @@
 
 					// 에러가 없다면 submit
 					if ($('.errorfocus').length == 0) {
+						$('.wrap-register .box-right div').fadeOut(300);
+						$('.wrap-register .box-right .loading-icon').fadeIn(300);
 						$('.regist-form').submit();
 					} else {
 						return false;
