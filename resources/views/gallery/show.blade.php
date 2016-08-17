@@ -89,7 +89,7 @@
 									}
 								}).done(function (data){
 									$('.btn-like').addClass('btn-like-clicked');
-									$('.like-count').text(data);
+									$('.like-count').text(parseInt($('.like-count').text())+1);
 									$('.like-txt').addClass('liked-txt').text('좋아요를 누르셨습니다.');
 								});
 							} else {
@@ -229,7 +229,9 @@
 								$('textarea[name=content]').val('');
 
 								var comment = $(".li-new-data").clone();
-
+								comment.find('.btn-delete-comment').attr('data-url',"{{ url('/articles/'.$article->id.'/comments/') }}"+'/'+data['id']);
+								comment.find('.btn-delete-comment').attr('data-csrf-token',"{{ csrf_token() }}");
+								comment.find('.btn-delete-comment').attr('data-id', data["id"]);
 								comment.find('.writer').text(data['name']);
 								comment.find('.reg-date').text(data['created_at']);
 
@@ -301,16 +303,17 @@
 											<a class="btn-reply" href="#">답글 달기</a>
 											<a href="#">신고</a>
 										@else
-											<a class="btn-delete-comment" href="#" data-url="{{ url('/articles/'.$article->id.'/comments/'.$comment->id) }}" data-csrf-token="{{ csrf_token() }}">삭제</a>
+											<a class="btn-delete-comment" href="#" data-id="{{ $comment->id }}" data-url="{{ url('/articles/'.$article->id.'/comments/'.$comment->id) }}" data-csrf-token="{{ csrf_token() }}">삭제</a>
 											<script>
 												$(document).on("click", ".btn-reply", function() {
 													var name = $(this).closest('li').find('.writer').text();
 
 													$('textarea[name=content]').val('@'+name+' ').focus();
 												});
+												
 												$(document).on("click", ".btn-delete-comment", function() {
 													$(this).addClass('delete');
-
+													var id = $(this).data('id');
 													var url = $(this).data('url');
 													var csrfToken = $(this).data('csrfToken');
 
@@ -318,6 +321,7 @@
 														type: 'delete',
 														url: url,
 														data: {
+															id: id,
 															_token: csrfToken,
 															xhr: 'true'
 														}
@@ -363,7 +367,11 @@
 			<span class="job">Artist</span>
 			<span class="id">{{ $article->writer_key }}</span>
 			<p class="introduce">
-				자기소개서.자기소개서.자기소개서.자기소개서.자기소개서.자기소개서. 자기소개서.자기소개서.자기소개서. 자기소개서.자기소개서. 자기소개서.자기소개서.
+				@if($article->user->intro != '')
+					{{ $article->user->intro }}
+				@else
+					자기소개가 없습니다.
+				@endif
 			</p>
 		</div>
 	</div>

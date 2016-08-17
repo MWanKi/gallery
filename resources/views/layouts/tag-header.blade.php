@@ -13,7 +13,7 @@
 			</li> -->
 
 			<li class="li-nav">
-				<a href="{{ url('/category?c=1') }}">카테고리A</a>
+				<a href="{{ url('/category') }}">카테고리A</a>
 				<ul class="ul-child">
 					<li class="li-child"> <a href="">조건1</a> </li>
 					<li class="li-child"> <a href="">조건2</a> </li>
@@ -22,7 +22,7 @@
 			</li>
 
 			<li class="li-nav">
-				<a href="{{ url('/category?c=2') }}">카테고리B</a>
+				<a href="{{ url('/category') }}">카테고리B</a>
 				<ul class="ul-child">
 					<li class="li-child"> <a href="">조건1</a> </li>
 					<li class="li-child"> <a href="">조건2</a> </li>
@@ -30,7 +30,7 @@
 				</ul>
 			</li>
 			<li class="li-nav">
-				<a href="{{ url('/category?c=3') }}">카테고리C</a>
+				<a href="{{ url('/category') }}">카테고리C</a>
 				<ul class="ul-child">
 					<li class="li-child"> <a href="">조건1</a> </li>
 					<li class="li-child"> <a href="">조건2</a> </li>
@@ -38,7 +38,7 @@
 				</ul>
 			</li>
 			<li class="li-nav">
-				<a href="{{ url('/category?c=4') }}">카테고리D</a>
+				<a href="{{ url('/category') }}">카테고리D</a>
 				<ul class="ul-child">
 					<li class="li-child"> <a href="">조건1</a> </li>
 					<li class="li-child"> <a href="">조건2</a> </li>
@@ -56,7 +56,7 @@
 				</li>
 			@else
 				<li class="li-nav li-my">
-					<a href="#">
+					<a href="{{ url('/mypage/'.auth()->user()->id) }}">
 						<div class="box-mini-profile">
 							@if (auth()->user()->image == '')
 								<img src="{{ url('/images/profile2.png') }}" alt="">

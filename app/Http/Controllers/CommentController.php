@@ -50,6 +50,7 @@ class CommentController extends Controller
 			$comment->save();
 
 			$data = array(
+				'id' => $comment->id, 
 				'name' => $request->name, 
 				'content' => nl2br($comment->content),
 				'created_at' => date("Y-m-d H:i:s",time())
@@ -64,12 +65,16 @@ class CommentController extends Controller
 
     }
 
-    function destroy($id, Request $request) {
-    	$comment = Comment::find($id);
-    	$comment->deleted = true;
-    	$comment->save();
+    function destroy($id, Request $request) 
+    { 
+    	$comment = Comment::find($request->id);
+    	// $comment = Comment::where('id',$id)->get();
+    	// $comment->deleted = true;
+    	$comment->delete();
 
     	if ($request->xhr) {
+    		// return $comment;	
+    		// return $request->id;	
     		return 'success';	
     	} else {
     		// return redirect('/');

@@ -191,6 +191,7 @@ class ArticleController extends Controller
             $article->tag = $request->tags;
             $article->body = $request->smarteditor;
             $article->writer_key = auth()->user()->name;
+            $article->user_id = auth()->user()->id;
 
             if ($request->image) {
                 $imageName = time() . '.' . $request->file('image')
@@ -241,6 +242,7 @@ class ArticleController extends Controller
             $article->tag = $request->tags;
             $article->body = $request->smarteditor;
             $article->writer_key = auth()->user()->name;
+            $article->user_id = auth()->user()->id;
 
             $imageName = time() . '.' . $request->file('image')
                                  ->getClientOriginalExtension();
@@ -259,7 +261,7 @@ class ArticleController extends Controller
             
             $article->save();
 
-            return redirect('/articles');
+            return redirect('/articles/'.$article->id);
         }
         
     }

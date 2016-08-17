@@ -1,5 +1,9 @@
 @extends('layouts.gallery')
 
+@section('title')
+:: 비밀번호 찾기
+@endsection
+
 @section('content')
 <div class="wrap-register wrap-find-password">
 	<h2>

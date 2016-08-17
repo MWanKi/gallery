@@ -11,14 +11,18 @@
 |
 */
 
+
+
 Route::resource('/','ArticleController');
 Route::resource('articles','ArticleController');
 Route::resource('category','ArticleController@categoryA');
 Route::resource('articles/{article_id}/like','ArticleController@like');
 Route::resource('articles/{article_id}/comments','CommentController');
+Route::delete('articles/{article_id}/comments/{comment_id}','CommentController@destroy');
 Route::resource('articles/usercheck','ArticleController@usercheck');
 Route::resource('articles/emailcheck','ArticleController@emailcheck');
 Route::get('auth/logout','Auth\AuthController@logout');
+Route::resource('mypage','MemberController@mypage');
 
 // Password Reset Routes...
 Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');

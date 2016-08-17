@@ -1,7 +1,11 @@
 @extends('layouts.gallery')
 
+@section('title')
+:: 비밀번호 재설정
+@endsection
+
 @section('content')
-<div class="wrap-register wrap-find-password">
+<div class="wrap-register wrap-find-password wrap-reset-password">
 	<h2>
 		비밀번호 재설정
 		<span class="welcome">
@@ -33,6 +37,7 @@
 			<div class="form-group">
 				<label class="col-md-4 control-label">비밀번호</label>
 				<input type="password" class="form-control" name="password">
+				<p class="desc">최소 6자 이상의 영문, 숫자 조합</p>
 			</div>
 
 			<div class="form-group">

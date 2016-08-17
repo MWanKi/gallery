@@ -1,5 +1,9 @@
 @extends('layouts/gallery')
 
+@section('title')
+:: 로그인
+@endsection
+
 @section('content')
 <div class="wrap-login">
 	<div class="box-center">

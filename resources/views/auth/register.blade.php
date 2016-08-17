@@ -1,5 +1,9 @@
 @extends('layouts/gallery')
 
+@section('title')
+:: 회원가입
+@endsection
+
 @section('content')
 
 @if (count($errors) > 0)
@@ -224,7 +228,7 @@
 			        	<div class="box-nickname">
 			        		<p class="desc">* 한번 정한 별명은 변경할 수 없습니다. <span class="point">(필수)</span></p>
 							<label class="">별명</label>
-							<input type="text" class="user-name require-info" name="name" value="{{ old('name') }}" placeholder="별명을 입력해주세요." data-csrf-token="{{ csrf_token() }}" data-url="{{ url('/articles/usercheck') }}">
+							<input type="text" class="user-name require-info" name="name" value="{{ old('name') }}" placeholder="별명을 입력해주세요." data-csrf-token="{{ csrf_token() }}" data-url="{{ url('/articles/usercheck') }}" maxlength="10">
 							<p class="condition error">
 								별명을 입력해주세요.
 							</p>
@@ -382,9 +386,10 @@
 							<p class="desc">비밀번호 찾기시에 사용됩니다.</p>
 						</div>
 
-						<div class="box-info">
+						<div class="box-info box-password">
 							<label class="">비밀번호</label>
 							<input type="password" class="require-info" name="password" placeholder="비밀번호를 입력해주세요.">
+							<p class="desc">최소 6자 이상의 영문, 숫자 조합</p>
 						</div>
 
 						<div class="box-info">
