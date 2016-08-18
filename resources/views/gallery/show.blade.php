@@ -373,6 +373,50 @@
 					자기소개가 없습니다.
 				@endif
 			</p>
+			@if (!auth()->guest())
+				@if ($article->user->id != auth()->user()->id)
+					@if (in_array('*'.$article->user->id.'*', explode(',',auth()->user()->follow)))
+						<a class="btn-follow btn-already-follow" data-id="{{ $article->user->id }}" data-cancel-url="{{ url('/followcancel') }}" data-url="{{ url('/follow') }}" data-csrf-token="{{ csrf_token() }}" href="#"><i class="fa fa-star" aria-hidden="true"></i> <span>현재 팔로우 중입니다.</span></a>
+					@else
+						<a class="btn-follow" data-id="{{ $article->user->id }}" data-cancel-url="{{ url('/followcancel') }}" data-url="{{ url('/follow') }}" data-csrf-token="{{ csrf_token() }}" href="#"><i class="fa fa-star" aria-hidden="true"></i> <span>팔로우</span></a>
+					@endif
+				@endif
+			@endif 
+			<script>
+				$(document).on("click", ".btn-follow", function(){
+
+					var csrfToken = $(this).data("csrfToken");
+					var follow_id = $(this).data("id");
+					var url = $(this).data("url");
+					var cancelUrl = $(this).data("cancelUrl");
+
+					if (!$(this).hasClass('btn-already-follow')) {
+						$.ajax({
+							type: 'post',
+							url: url,
+							data: {
+								follow_id: follow_id,
+								xhr: 'true',
+								_token: csrfToken
+							}
+						}).done(function (response) {
+							$('.btn-follow').addClass('btn-already-follow').find('span').text('현재 팔로우 중입니다.');
+						});
+					} else {
+						$.ajax({
+							type: 'post',
+							url: cancelUrl,
+							data: {
+								follow_id: follow_id,
+								xhr: 'true',
+								_token: csrfToken
+							}
+						}).done(function (response) {
+							$('.btn-follow').removeClass('btn-already-follow').find('span').text('팔로우');
+						});
+					}
+				});
+			</script>
 		</div>
 	</div>
 	<div class="box-relate-article">
