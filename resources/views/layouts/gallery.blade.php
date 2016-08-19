@@ -39,6 +39,23 @@
 		<link rel="stylesheet" type="text/css" href="{{ url('css/jquery.tagsinput.css') }}" />
 	</head>
 	<body>
+		<script>
+		  window.fbAsyncInit = function() {
+		    FB.init({
+		      appId      : '322237758119021',
+		      xfbml      : true,
+		      version    : 'v2.7'
+		    });
+		  };
+
+		  (function(d, s, id){
+		     var js, fjs = d.getElementsByTagName(s)[0];
+		     if (d.getElementById(id)) {return;}
+		     js = d.createElement(s); js.id = id;
+		     js.src = "//connect.facebook.net/en_US/sdk.js";
+		     fjs.parentNode.insertBefore(js, fjs);
+		   }(document, 'script', 'facebook-jssdk'));
+		</script>
 		@include('layouts/tag-header')
 		<div class="wrap_main" id="pjax-container">
 			@yield('content')

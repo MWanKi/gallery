@@ -52,7 +52,7 @@
 			<div class="wrap-input">
 				<ul>
 					<li>
-						<a class="sns-fb" href="#">
+						<a class="sns-fb" href="{{ url('/redirect') }}">
 							<span class="icon"><i class="fa fa-facebook" aria-hidden="true"></i></span>
 							<span class="txt">페이스북 계정으로 로그인</span>
 						</a>

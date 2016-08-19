@@ -24,6 +24,7 @@ Route::resource('articles/usercheck','ArticleController@usercheck');
 Route::resource('articles/emailcheck','ArticleController@emailcheck');
 Route::get('auth/logout','Auth\AuthController@logout');
 Route::resource('mypage','MemberController@mypage');
+Route::resource('userpage','MemberController@userpage');
 Route::resource('follow','MemberController@follow');
 Route::resource('followcancel','MemberController@followcancel');
 
@@ -31,3 +32,7 @@ Route::resource('followcancel','MemberController@followcancel');
 Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
 Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
 Route::post('password/reset', 'Auth\PasswordController@reset');
+
+// social
+Route::get('/redirect', 'SocialAuthController@redirect');
+Route::get('/callback', 'SocialAuthController@callback');

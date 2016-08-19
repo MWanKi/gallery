@@ -169,11 +169,11 @@
 		<div class="box-left box-layout">
 			<h3>개인정보취급방침</h3>
 			<div class="cover">
-				<textarea name="" id="" cols="30" rows="10" readonly>@include('gallery.private')</textarea>
+				<textarea name="" id="" cols="30" rows="10" readonly>@include('auth.private')</textarea>
 			</div>
 			<h3>이용약관</h3>
 			<div class="cover">
-				<textarea name="" id="" cols="30" rows="10" readonly>@include('gallery.use')</textarea>
+				<textarea name="" id="" cols="30" rows="10" readonly>@include('auth.use')</textarea>
 			</div>
 		</div>
 		<div class="box-right box-layout">

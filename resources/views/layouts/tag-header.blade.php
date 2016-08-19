@@ -1,4 +1,3 @@
-<div style="height:75px;"></div>
 <div class="wrap-header cf">
 	<div class="box-header">
 		<h1 class="logo"><a href="{{ url('/articles') }}"><img src="{{ url('images/logo(84.24px)_bk.png') }}" alt=""></a></h1>

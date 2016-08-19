@@ -23,7 +23,13 @@
 					@endif 
 				</p>
 			</div>
-			<a class="btn-profile-update" href="{{ url('/mypage/'.auth()->user()->id.'/edit') }}">프로필 수정하기</a>
+			<div class="box-act">
+				@if (in_array('*'.$user->id.'*', explode(',',auth()->user()->follow)))
+					<a class="btn-follow btn-already-follow" data-id="{{ $user->id }}" data-cancel-url="{{ url('/followcancel') }}" data-url="{{ url('/follow') }}" data-csrf-token="{{ csrf_token() }}" href="#"><i class="fa fa-star" aria-hidden="true"></i> <span>현재 팔로우 중입니다.</span></a>
+				@else
+					<a class="btn-follow" data-id="{{ $user->id }}" data-cancel-url="{{ url('/followcancel') }}" data-url="{{ url('/follow') }}" data-csrf-token="{{ csrf_token() }}" href="#"><i class="fa fa-star" aria-hidden="true"></i> <span>팔로우</span></a>
+				@endif
+			</div>
 		</div>
 	</div>
 	<div class="box-sub-menu">
@@ -33,7 +39,7 @@
 			@else
 				<li>
 			@endif
-				<a href="{{ url('/mypage/'.auth()->user()->id.'?category=works') }}">
+				<a href="{{ url('/userpage/'.$user->id.'?category=works') }}">
 					<p class="name">작품</p>
 					<p class="count">{{ $count_aritlces }}</p>
 				</a>
@@ -43,7 +49,7 @@
 			@else
 				<li>
 			@endif
-				<a href="{{ url('/mypage/'.auth()->user()->id.'?category=likes') }}">
+				<a href="{{ url('/userpage/'.$user->id.'?category=likes') }}">
 					<p class="name">좋아요</p>
 					<p class="count">{{ $count_like }}</p>
 				</a>
@@ -53,7 +59,7 @@
 			@else
 				<li>
 			@endif
-				<a href="{{ url('/mypage/'.auth()->user()->id.'?category=follow') }}">
+				<a href="{{ url('/userpage/'.$user->id.'?category=follow') }}">
 					<p class="name">팔로우</p>
 					<p class="count">{!! count(array_filter(explode(',',$user->follow))) !!}</p>
 				</a>
@@ -63,7 +69,7 @@
 			@else
 				<li>
 			@endif
-				<a href="{{ url('/mypage/'.auth()->user()->id.'?category=follower') }}">
+				<a href="{{ url('/userpage/'.$user->id.'?category=follower') }}">
 					<p class="name">팔로워</p>
 					<p class="count">{!! count($followers) !!}</p>
 				</a>
@@ -140,7 +146,7 @@
 				<ul class="ul-follow-users">
 					@foreach($users as $user)
 						<li class="li-data">
-							<a href="{{ url('/userpage/'.$user->id) }}">
+							<a href="{{ $user->id == auth()->user()->id ? url('/mypage/'.$user->id) : url('/userpage/'.$user->id) }}">
 								<div class="box-profile">
 									<div class="box-image">
 										@if ($user->image != '')
@@ -172,7 +178,11 @@
 								@if (in_array('*'.$user->id.'*', explode(',',auth()->user()->follow)))
 									<a class="btn-follow btn-already-follow" data-id="{{ $user->id }}" data-cancel-url="{{ url('/followcancel') }}" data-url="{{ url('/follow') }}" data-csrf-token="{{ csrf_token() }}" href="#"><i class="fa fa-star" aria-hidden="true"></i> <span>현재 팔로우 중입니다.</span></a>
 								@else
-									<a class="btn-follow" data-id="{{ $user->id }}" data-cancel-url="{{ url('/followcancel') }}" data-url="{{ url('/follow') }}" data-csrf-token="{{ csrf_token() }}" href="#"><i class="fa fa-star" aria-hidden="true"></i> <span>팔로우</span></a>
+									@if ($user->id == auth()->user()->id)
+										<a class="btn-follow disabled" href="#"><span>본인입니다.</span></a>
+									@else
+										<a class="btn-follow" data-id="{{ $user->id }}" data-cancel-url="{{ url('/followcancel') }}" data-url="{{ url('/follow') }}" data-csrf-token="{{ csrf_token() }}" href="#"><i class="fa fa-star" aria-hidden="true"></i> <span>팔로우</span></a>
+									@endif
 								@endif
 							</div>
 						</li>
