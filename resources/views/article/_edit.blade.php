@@ -13,26 +13,6 @@
         @endforeach
     </ul>
 </div>
-    <script>
-    	$(function(){
-    		for (var i = 0; i < $('.upload-error li').length; i++) {
-	    		var error = $('.upload-error li').eq(i).text();
-
-	    		if (error == ' The title field is required.') {
-	    			errorMessage = '제목을 입력해주세요.';
-	    		} else if (error == ' The smarteditor field is required.') {
-	    			errorMessage = '내용을 입력해주세요.';
-	    		} else if (error == ' The image field is required.') {
-	    			errorMessage = '썸네일 이미지를 업로드 해주세요.';
-	    		} else {
-	    			errorMessage = '카테고리를 선택해주세요.';
-	    		}
-
-	    		$('.upload-error li').eq(i).text(errorMessage);
-	    	}
-    	});
-    	
-    </script>
 @endif
 
 <span class="blackcover"></span>

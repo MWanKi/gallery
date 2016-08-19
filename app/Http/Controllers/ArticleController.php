@@ -50,7 +50,7 @@ class ArticleController extends Controller
 
     function create() 
     {
-        return view('gallery.create');
+        return view('article.create');
     }
 
     function show($id) 
@@ -64,6 +64,9 @@ class ArticleController extends Controller
 
             if (!in_array($writer->id, $hit_list)) {
                 $article->hit = $article->hit.','.$writer->id;
+                $article->hit = array_filter(explode(',',$article->hit));
+                $article->hit = implode(',',$article->hit);
+                // $article->hit = implode(','array_filter(explode(',',$article->hit.','.$writer->id)));
                 $article->save();
             }
         } else {
@@ -72,22 +75,23 @@ class ArticleController extends Controller
 
             if (!in_array($client_ip, $hit_list)) {
                 $article->hit = $article->hit.','.$client_ip;
+                // $article->hit = implode(','array_filter(explode(',',$article->hit.','.$client_ip)));
                 $article->save();
             }
         }
 
         $related_articles = Article::where('deleted', false)
                                     ->where('category', $article->category)
+                                    ->whereNotIn('id', [$id])
                                     ->orderBy('created_at', 'desc')
                                     ->take(5)
                                     ->get();
 
         
-    	return view('gallery.show', [
+    	return view('article.show', [
     		'article' => $article,
             'related_articles' => $related_articles,
             'users' => $users,
-            // 'writer' => $writer
     	]);
     }
 
@@ -97,18 +101,24 @@ class ArticleController extends Controller
             'name' => 'required'
         ]);
 
+
         $article = Article::where('deleted', false)->find($id);
+        $user = User::find($article->user_id);
 
         if ($validator->fails()) {            
             $data = array_slice(explode(',', $article->like), 0, 1);
         } else {
-            $article->like = $article->like.','.$request->name;
+            $article->like = $article->like.','.'*'.$request->name.'*';
+            $article->like = array_filter(explode(',', $article->like));
+            $article->like = implode(',', $article->like);
             $article->save();
 
-            $data = array_slice(explode(',', $article->like), 0, 1);
+            $user->liked = $user->liked+1;
+            $user->save();
+            // $data = array_slice(explode(',', $article->like), 0, 1);
         }
 
-        return count($data);
+        return count($article->like);
     }
 
     function usercheck(Request $request)
@@ -148,7 +158,7 @@ class ArticleController extends Controller
 
         $article = Article::find($id);
 
-        return view('gallery.edit', [
+        return view('article.edit', [
             'article' => $article
         ]);
     }
@@ -213,7 +223,7 @@ class ArticleController extends Controller
             
             $article->save();
 
-            return redirect('/articles');
+            return redirect('/articles/'.$article->id);
         }
     }
     

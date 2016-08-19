@@ -71,14 +71,14 @@
 
 		</ul>
 	</div>
-	<span id="bg" class="bg-profile"></span>
+	<span id="bg" class="bg-profile" data-bg="{{ $user->image != '' ? url('/uploads/'.$user->image) : '' }}"></span>
 </div>
 <script>
 	$(function(){
 		var profileHeight = $('.wrap-profile').height();
 		$('.wrap-mypage').css({'padding-top':profileHeight});
 
-		var bgImg = "{{ url('/uploads/'.$user->image) }}" != '' ? "{{ url('/uploads/'.$user->image) }}" : '';
+		var bgImg = $('#bg').data('bg');
 
 		$('#bg').backgroundBlur({
 		    imageURL : bgImg,
@@ -115,15 +115,15 @@
 									<ul>
 										<li>
 											<span class="icon"><i class="fa fa-eye" aria-hidden="true"></i></span>
-											<span class="count">{!! count(explode(',',$article->hit))-1 !!}</span>
+											<span class="count">{!! count(explode(',',$article->hit)) !!}</span>
 										</li>
 										<li>
 											<span class="icon"><i class="fa fa-heart" aria-hidden="true"></i></span>
-											<span class="count">{!! count(explode(',',$article->like))-1 !!}</span>
+											<span class="count">{!! count(explode(',',$article->like)) !!}</span>
 										</li>
 										<li>
 											<span class="icon"><i class="fa fa-comment" aria-hidden="true"></i></span>
-											<span class="count">{!! count($article->comments) !!}</span>
+											<span class="count">{!! count($article->comments->where('deleted', 0)) !!}</span>
 										</li>
 									</ul>
 								</div>
@@ -137,7 +137,7 @@
 		@if (count($users) > 0)
 			<div class="box-like-content">
 				<h2>{{ $title }}</h2>
-				<ul class="ul-like-articles">
+				<ul class="ul-follow-users">
 					@foreach($users as $user)
 						<li class="li-data">
 							<a href="#">
@@ -151,23 +151,30 @@
 									</div>	
 									<p class="name">{{ $user->name }}</p>
 								</div>
-								<div class="box-etc">
-									<ul>
-										<li>
-											<span class="icon"><i class="fa fa-file-image-o" aria-hidden="true"></i></span>
-											<span class="count">{!! count($user->articles) !!}</span>
-										</li>
-										<li>
-											<span class="icon"><i class="fa fa-heart" aria-hidden="true"></i></span>
-											<span class="count"></span>
-										</li>
-										<li>
-											<span class="icon"><i class="fa fa-star" aria-hidden="true"></i></span>
-											<span class="count">{!! count($user->follower) !!}</span>
-										</li>
-									</ul>
-								</div>
 							</a>
+							<div class="box-etc">
+								<ul>
+									<li>
+										<span class="icon"><i class="fa fa-file-image-o" aria-hidden="true"></i></span>
+										<span class="count">{!! count($user->articles) !!}</span>
+									</li>
+									<li>
+										<span class="icon"><i class="fa fa-heart" aria-hidden="true"></i></span>
+										<span class="count">{{ $user->liked }}</span>
+									</li>
+									<li>
+										<span class="icon"><i class="fa fa-star" aria-hidden="true"></i></span>
+										<span class="count">{!! count(array_filter(explode(',',$user->follower))) !!}</span>
+									</li>
+								</ul>
+							</div>
+							<div class="box-act">
+								@if (in_array('*'.$user->id.'*', explode(',',auth()->user()->follow)))
+									<a class="btn-follow btn-already-follow" data-id="{{ $user->id }}" data-cancel-url="{{ url('/followcancel') }}" data-url="{{ url('/follow') }}" data-csrf-token="{{ csrf_token() }}" href="#"><i class="fa fa-star" aria-hidden="true"></i> <span>현재 팔로우 중입니다.</span></a>
+								@else
+									<a class="btn-follow" data-id="{{ $user->id }}" data-cancel-url="{{ url('/followcancel') }}" data-url="{{ url('/follow') }}" data-csrf-token="{{ csrf_token() }}" href="#"><i class="fa fa-star" aria-hidden="true"></i> <span>팔로우</span></a>
+								@endif
+							</div>
 						</li>
 					@endforeach
 				</ul>

@@ -19,12 +19,14 @@ class MemberController extends Controller
         $user = User::find($user_id);
 
         // 직접 작성한 게시물
-        $writed_articles = Article::where('user_id', $user->id . 'AND' . 'deleted', false)
+        $writed_articles = Article::where('user_id', $user->id)
+                                    ->where('deleted', false)
                                     ->orderBy('id', 'desc')
                                     ->get();        
 
         // 좋아요를 누른 게시물
-        $like_articles = Article::where('like', 'LIKE', '%,'.$user->name)
+        $like_articles = Article::where('like', 'LIKE', '%*'.$user->name.'*%')
+                            ->where('deleted', false)
                             ->orderBy('id', 'desc') 
                             ->get();
 
@@ -36,7 +38,7 @@ class MemberController extends Controller
         $follow = explode(',', str_replace('*','',$user->follow));
         $follow = User::whereIn('id', $follow)->get();
         $follow_list = array();
-        
+        $follow_like_count = 0;
 
         // 팔로워
         $followers = User::where('follow', 'Like', '%*'.$user->id.'*%')->get();
@@ -52,6 +54,7 @@ class MemberController extends Controller
         } else if ($category == 'follow') {
             $title = '팔로우 하는 작가들입니다.';
             $users = $follow;
+
         } else if ($category == 'follower') {
             $title = '나를 팔로우 하는 사람들입니다.';
             $users = $followers;
@@ -64,7 +67,7 @@ class MemberController extends Controller
         // 좋아요 게시물 개수
         $count_like = count($like_articles);
 
-        return view('gallery.mypage', [
+        return view('user.mypage', [
             'user' => $user,
             'users' => $users,
             'follow' => $follow,

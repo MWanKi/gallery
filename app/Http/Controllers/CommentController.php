@@ -25,60 +25,31 @@ class CommentController extends Controller
 		]);
 
 		if ($validator->fails()) {
-			return redirect('/'.$article_id)
-					->withErrors($validator)
-					->withInput();
-		} else {
-			$article = Article::where('deleted', false)->find($article_id);
-
-			$comment = new Comment;
-			$users = User::get();
-
-			$comment->article_id = $article_id;
-			$comment->name = $request->name;
-			$content = $request->content;
-			$comment->secret = false;
-			$comment->user_id = auth()->user()->id;
-
-			foreach($users as $user) {
-				$user_name = $user->name;
-				$content = str_replace('@'.$user_name, '<a class="mention" href="">'.$user_name.'</a>', $content);
-			}
-
-			$comment->content = $content;
-
-			$comment->save();
-
-			$data = array(
-				'id' => $comment->id, 
-				'name' => $request->name, 
-				'content' => nl2br($comment->content),
-				'created_at' => date("Y-m-d H:i:s",time())
-			);
-			return $data;
-			// return redirect('/'.$article_id);
+			return response()->json([
+				'errors' => $validator->errors()->all()
+			], 433);
 		}
 
+		$comment = new Comment;
+		$comment->article_id = $article_id;
+		$comment->name = $request->name;
+		$content = $request->content;
+		$comment->secret = false;
+		$comment->deleted = false;
+		$comment->user_id = auth()->user()->id;
+		$comment->content = $content;
+
+		$comment->save();
+
+		return view('comment/_comment', [
+			'comment' => $comment
+		]);
     }
 
-    function show($id) {
-
-    }
-
-    function destroy($id, Request $request) 
+    function destroy($article_id, $id) 
     { 
-    	$comment = Comment::find($request->id);
-    	// $comment = Comment::where('id',$id)->get();
-    	// $comment->deleted = true;
-    	$comment->delete();
-
-    	if ($request->xhr) {
-    		// return $comment;	
-    		// return $request->id;	
-    		return 'success';	
-    	} else {
-    		// return redirect('/');
-    	}
-    	
+    	$comment = Comment::find($id);
+    	$comment->deleted = true;
+    	$comment->save();
     }
 }
