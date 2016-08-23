@@ -17,7 +17,7 @@
 				<p class="name">{{ $user->name }}</p>
 				<p class="intro">
 					@if ($user->intro != '')
-						{{ $user->intro }}
+						{!! nl2br(e($user->intro)) !!}
 					@else
 						자기소개가 없습니다.
 					@endif 

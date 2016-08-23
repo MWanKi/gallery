@@ -19,7 +19,7 @@
 				</ul>
 			@endif
 
-			<form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/login') }}">
+			<form class="login-form form-horizontal" role="form" method="POST" action="{{ url('/auth/login') }}">
 				{!! csrf_field() !!}
 				<div class="wrap-input">
 					<div class="box-input">
@@ -50,35 +50,39 @@
 		<div class="box-info box-social">
 			<h2>소셜 로그인 <span class="desc">소셜 계정으로 로그인하여 문화공간에 참여해보세요.</span></h2>
 			<div class="wrap-input">
-				<ul>
+				<ul class="ul-sns-login">
 					<li>
 						<a class="sns-fb" href="{{ url('/redirect') }}">
 							<span class="icon"><i class="fa fa-facebook" aria-hidden="true"></i></span>
 							<span class="txt">페이스북 계정으로 로그인</span>
 						</a>
 					</li>
-					<li>
+					<!-- <li>
 						<a class="sns-tw" href="#">
 							<span class="icon"><i class="fa fa-twitter" aria-hidden="true"></i></span>
 							<span class="txt">트위터 계정으로 로그인</span>
 						</a>
-					</li>
+					</li> -->
 					<li>
-						<a class="sns-nv" href="#">
+						<a class="sns-nv" href="/auth/naver">
 							<span class="icon"></span>
 							<span class="txt">네이버 계정으로 로그인</span>
 						</a>
-					</li><li>
-						<a class="sns-ka" href="#">
+					</li>
+					<!-- <li>
+						<a class="sns-ka" href="/auth/kakao">
 							<span class="icon"><i class="fa fa-comment" aria-hidden="true"></i></span>
 							<span class="txt">카카오 계정으로 로그인</span>
 						</a>
-					</li>
+					</li> -->
 				</ul>
 				<div class="box-etc">
 				</div>
 			</div>
 		</div>
 	</div>
+	<span class="loading-icon">
+		<img src="{{ url('/images/spinner.gif') }}" alt="">
+	</span>
 </div>
 @endsection

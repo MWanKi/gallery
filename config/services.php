@@ -45,4 +45,16 @@ return [
         'redirect' => 'http://localhost:8000/callback',
     ],
 
+    'naver' => [
+        'client_id' => 'x7xiy2QF22bhrH01Nb5n',
+        'client_secret' => 'y29YAnO6hE',
+        'redirect' => 'http://localhost:8000/',
+    ], 
+    
+    'kakao' => [
+        'client_id' => env('KAKAO_KEY'),
+        'client_secret' => env('KAKAO_SECRET'),
+        'redirect' => env('KAKAO_REDIRECT_URI'),  
+    ], 
+
 ];

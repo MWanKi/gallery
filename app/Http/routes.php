@@ -23,7 +23,11 @@ Route::resource('articles/{article_id}/comments','CommentController');
 Route::resource('articles/usercheck','ArticleController@usercheck');
 Route::resource('articles/emailcheck','ArticleController@emailcheck');
 Route::get('auth/logout','Auth\AuthController@logout');
+
+Route::resource('mypage/{user_id}/update','MemberController@update');
+Route::resource('mypage/{user_id}/edit','MemberController@edit');
 Route::resource('mypage','MemberController@mypage');
+
 Route::resource('userpage','MemberController@userpage');
 Route::resource('follow','MemberController@follow');
 Route::resource('followcancel','MemberController@followcancel');
@@ -33,6 +37,15 @@ Route::get('password/reset/{token?}', 'Auth\PasswordController@showResetForm');
 Route::post('password/email', 'Auth\PasswordController@sendResetLinkEmail');
 Route::post('password/reset', 'Auth\PasswordController@reset');
 
-// social
+// social facebook
 Route::get('/redirect', 'SocialAuthController@redirect');
 Route::get('/callback', 'SocialAuthController@callback');
+
+// social naver
+Route::get('/auth/naver', 'NaverAuthController@redirectToProvider');
+Route::get('/auth/naver/callback', 'NaverAuthController@handleProviderCallback');
+
+// social kakao
+// Route::get('/auth/kakao', 'KakaoAuthController@redirectToProvider');
+// Route::get('/auth/kakao/callback', 'KakaoAuthController@handleProviderCallback');
+

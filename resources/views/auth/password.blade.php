@@ -54,54 +54,6 @@
 							비밀번호 초기화 링크 보내기
 						</a>
 					</div>
-					<script>
-					$(document).on("click", "#reset-password-submit", function(){
-						var url = $(this).data('url');
-						var csrfToken = $(this).data('csrfToken');
-						var email = $('input[name=email]').val();
-						var rule = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i; 
-
-						if (!rule.test(email)) {
-							$('.wrap-find-password .box-layout').animate({'padding-top':88},300,function(){
-								$('.box-response .success').fadeOut(300);
-								$('.box-response .failed').fadeIn(300);
-							});
-						} else {
-							$('.wrap-find-password .loading-icon').fadeIn(300);
-							$('.form-group').animate({'opacity':0},300);
-							$('.box-response p').fadeOut(300);
-
-							$.ajax({
-								type: 'post',
-								url: url,
-								data: {
-									email: email,
-									_token: csrfToken,
-									xhr: 'true'
-								}
-							}).done(function (response){
-								if (response == 'passwords.sent') {
-									// success
-									$('.wrap-find-password .loading-icon').fadeOut(300);
-									$('.form-group').animate({'opacity':1},300);
-									$('.wrap-find-password .box-layout').animate({'padding-top':88},300,function(){
-										$('.box-response .success').fadeIn(300);
-										$('.box-response .failed').fadeOut(300);	
-									});
-								} else {
-									// failed
-									$('.wrap-find-password .loading-icon').fadeOut(300);
-									$('.form-group').animate({'opacity':1},300);
-									$('.wrap-find-password .box-layout').animate({'padding-top':88},300,function(){
-										$('.box-response .success').fadeOut(300);
-										$('.box-response .failed').fadeIn(300);
-									});
-								}
-							});
-						}
-						return false;
-					});
-					</script>
 				</div>
 			</form>
 			<img class="loading-icon" src="{{ url('/images/spinner.gif') }}" alt="">

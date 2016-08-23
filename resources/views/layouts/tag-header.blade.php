@@ -65,7 +65,7 @@
 						</div>
 					</a>
 					<ul class="ul-mypage">
-						<li><a href="#">내 정보 관리</a></li>
+						<li><a href="{{ url('/mypage/'.auth()->user()->id.'/edit') }}">개인정보 수정</a></li>
 						<li><a href="{{ url('/auth/logout') }}">로그아웃</a>	</li>
 					</ul>
 				</li>

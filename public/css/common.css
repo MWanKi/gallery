@@ -266,6 +266,7 @@ body {padding:75px 0 0; background:#fbfbfb;}
 .wrap-register .box-layout {width:540px; height:500px; padding:20px 30px 30px; border-right:1px solid #d4d4d4; border-bottom:2px solid #d4d4d4; box-shadow:0 0 2px rgba(0,0,0,0.3); background:#fff;}
 .wrap-register .box-left {float: left;}
 .wrap-register .box-right {float: right;}
+.wrap-register .box-update {float: none; margin:0 auto;}
 .wrap-register h2 {color:#565656; font-size:30px; text-align:left; padding:0 0 25px;}
 .wrap-register h2 .welcome {display:inline-block; position:relative; top:3px; margin:-5px 0 0 20px; color:#787878; font-size:12px; text-align:left; line-height:1.6;}
 .wrap-register h3 {color:#565656; font-size:16px; text-align:left; margin:0 0 15px; padding:0 0 15px; border-bottom:1px solid #ccc;}
@@ -281,9 +282,10 @@ body {padding:75px 0 0; background:#fbfbfb;}
 .wrap-register .box-profile .box-input .condition.error {color:#ed642c; border:none !important;}
 .wrap-register .box-profile .box-input label {float: left; width:60px; display:inline-block; font-size:14px; color:#565656; border-left:2px solid #ed642c; padding:5px 10px;}
 .wrap-register .box-profile .box-input .box-nickname label {position:relative; top:10px;}
-.wrap-register .box-profile .box-input input {width:197px; float: right; margin:5px 0; padding:7px; font-size:12px; background:#fff; border:1px solid #d4d4d4; color:#565656;}
+.wrap-register .box-update .box-input .box-nickname {height:40px; margin:0 0 10px;}
+.wrap-register .box-profile .box-input input {width:202px; float: right; margin:5px 0; padding:7px; font-size:12px; background:#fff; border:1px solid #d4d4d4; color:#565656;}
 .wrap-register .box-profile .box-input div {clear: both;}
-.wrap-register .box-profile .box-input textarea {float: right; width:200px; margin:0 0 20px; display:inline-block; border:1px solid #d4d4d4; resize:none; font-size:13px; color:#565656; padding:5px; line-height:1.6;}
+.wrap-register .box-profile .box-input textarea {float: right; width:206px; margin:0 0 20px; display:inline-block; border:1px solid #d4d4d4; resize:none; font-size:13px; color:#565656; padding:5px; line-height:1.6;}
 .wrap-register .box-right {position:relative;}
 .wrap-register .box-right .profile {display:block; width:100px; height:100px;}
 .wrap-register .box-right .box-required {clear: both; float:left;}
@@ -297,6 +299,7 @@ body {padding:75px 0 0; background:#fbfbfb;}
 .wrap-register .box-right .box-required input {width:151px; float: left; padding:7px; font-size:12px; background:#fff; border:1px solid #d4d4d4; color:#565656;}
 .wrap-register .box-right .box-required .box-phone .box-num {float: left; clear:none;}
 .wrap-register .box-right .box-required .box-phone .box-num input {width:33px; margin:0 10px 0 0; float: left;}
+.wrap-register .box-right .box-required .box-phone .box-num input:last-child {margin:0;}
 .wrap-register .box-right .recommend {clear:both; padding:20px 0; border-top:1px solid #d4d4d4; font-size:14px; }
 .wrap-register .box-right .recommend .required {color:#ed642c;}
 .wrap-register .box-right .box-required .box-input {float: left;}
@@ -309,6 +312,11 @@ body {padding:75px 0 0; background:#fbfbfb;}
 #preview-pane.register {width:100px; height:100px;}
 #preview-pane.register .preview-container {width: 100px; height: 100px; overflow: hidden; }
 #preview-pane.register img {width:100%;}
+
+#preview-pane.edit {width:100px; height:100px;}
+#preview-pane.edit .preview-container {width: 100px; height: 100px; overflow: hidden; border:1px solid #d4d4d4; border-radius:50%;}
+#preview-pane.edit img {width:100%;}
+
 .wrap-register .errorfocus {border:1px solid #ed642c !important;}
 .wrap-register .btn-regist {float:right; clear:both; margin:20px 0 0; width:602px; height:45px; line-height:49px; text-align:center; font-size:16px; color:#fff; background:#ed642c; border:1px solid #ed642c; border-bottom:3px solid #d35826; box-shadow: inset 0 1px #f2c0b5; border-radius:5px; cursor: pointer;}
 .wrap-register .btn-regist:hover {background:#e35216; border:1px solid #e35216; border-bottom:3px solid #bb4414; box-shadow: inset 0 1px #eea08d;}
@@ -319,13 +327,15 @@ body {padding:75px 0 0; background:#fbfbfb;}
 .wrap-find-password .box-layout div {margin:0 auto; text-align:center;}
 .wrap-find-password .box-layout div.form-group {margin:0 0 10px;}
 .wrap-find-password .box-layout div.form-group:last-child {margin:0;}
-.wrap-find-password label {width:80px; display:inline-block; text-align:left; font-size:14px; color:#565656; border-left:2px solid #ed642c; padding:5px 10px;}
+.wrap-find-password label {width:90px; display:inline-block; text-align:left; font-size:14px; color:#565656; border-left:2px solid #ed642c; padding:5px 10px;}
 .wrap-find-password input[type=email] {width:260px; height:34px; border:1px solid #d4d4d4; text-indent:10px; font-size:13px; color:#565656;}
+.wrap-find-password input[type=text] {width:260px; height:34px; border:1px solid #d4d4d4; text-indent:10px; font-size:13px; color:#565656;}
+.wrap-find-password input[type=text].disabled {color:#9a9a9a;}
 .wrap-find-password input[type=password] {width:260px; height:34px; border:1px solid #d4d4d4; text-indent:10px; font-size:13px; color:#565656;}
 .wrap-find-password button {display:inline-block; width:200px; height:45px; margin:20px 0 0; line-height:39px; text-align:center; font-size:14px; color:#fff; background:#ed642c; border:1px solid #ed642c; border-bottom:3px solid #d35826; box-shadow: inset 0 1px #f2c0b5; border-radius:5px; cursor: pointer;}
 .wrap-find-password button:hover {background:#e35216; border:1px solid #e35216; border-bottom:3px solid #bb4414; box-shadow: inset 0 1px #eea08d;}
-.wrap-find-password a {display:inline-block; width:200px; height:41px; margin:20px 0 0; line-height:45px; text-align:center; font-size:14px; color:#fff; background:#ed642c; border:1px solid #ed642c; border-bottom:3px solid #d35826; box-shadow: inset 0 1px #f2c0b5; border-radius:5px; cursor: pointer;}
-.wrap-find-password a:hover {background:#e35216; border:1px solid #e35216; border-bottom:3px solid #bb4414; box-shadow: inset 0 1px #eea08d;}
+.wrap-find-password #reset-password-submit {display:inline-block; width:200px; height:41px; margin:20px 0 0; line-height:45px; text-align:center; font-size:14px; color:#fff; background:#ed642c; border:1px solid #ed642c; border-bottom:3px solid #d35826; box-shadow: inset 0 1px #f2c0b5; border-radius:5px; cursor: pointer;}
+.wrap-find-password #reset-password-submit:hover {background:#e35216; border:1px solid #e35216; border-bottom:3px solid #bb4414; box-shadow: inset 0 1px #eea08d;}
 .wrap-find-password .box-response {position:absolute; top:30px; left:0; width:100%;}
 .wrap-find-password .box-response p {display:none; text-align:center; color:#565656; line-height:1.5; font-size:13px; padding:0 0 20px;}
 .wrap-find-password .box-response p.success {color:#3ead3e;}
@@ -339,7 +349,7 @@ body {padding:75px 0 0; background:#fbfbfb;}
 .wrap-profile .box-profile .box-card .box-cover {width:80px; height:80px; margin:0 auto; border:1px solid #d4d4d4; border-radius:50%; overflow: hidden;}
 .wrap-profile .box-profile .box-card .box-cover img {width:100%;}
 .wrap-profile .box-profile .box-card .box-info .name {font-size:14px; color:#565656; padding:15px 0; text-align:center; border-bottom:1px solid #d4d4d4}
-.wrap-profile .box-profile .box-card .box-info .intro {font-size:12px; color:#9a9a9a; padding:20px 0 30px}
+.wrap-profile .box-profile .box-card .box-info .intro {min-height:60px; max-height:100px; overflow: hidden; line-height:1.6; font-size:12px; color:#9a9a9a; padding:10px 0 ; margin:0 0 20px; border-bottom:1px solid #d4d4d4;}
 .wrap-profile .box-profile .box-card .btn-profile-update {display:block; height:30px; line-height:34px; text-align:center; font-size:13px; color:#fff; background:#ed642c; border:1px solid #ed642c; border-bottom:3px solid #d35826; box-shadow: inset 0 1px #f2c0b5; border-radius:5px; cursor: pointer;}
 .wrap-profile .box-profile .box-card .btn-profile-update:hover {background:#e35216; border:1px solid #e35216; border-bottom:3px solid #bb4414; box-shadow: inset 0 1px #eea08d;}
 .wrap-profile .box-sub-menu {position:relative; z-index:1; background:#fff; border-top:1px solid #d4d4d4;}
@@ -369,7 +379,6 @@ body {padding:75px 0 0; background:#fbfbfb;}
 .wrap-mypage .box-content .ul-like-articles li .box-etc li span.icon {padding:0 5px 0 0;}
 .wrap-mypage .box-content .ul-follow-users {padding:10px 0 0;}
 .wrap-mypage .box-content .ul-follow-users .li-data {width:228px; margin:10px; padding:10px 0 0; float:left; border-right:1px solid #d4d4d4; border-bottom:2px solid #d4d4d4; box-shadow:0 0 2px rgba(0,0,0,0.3); background:#fff;}
-.wrap-mypage .box-content .ul-follow-users .li-data .box-profile {}
 .wrap-mypage .box-content .ul-follow-users .li-data .box-profile .name {font-size:16px; padding:0 0 10px; color:#565656; text-align:center;}
 .wrap-mypage .box-content .ul-follow-users .li-data .box-profile .box-image {margin:20px auto; width:70px; height:70px; overflow: hidden; border-radius:50%; border:1px solid #d4d4d4;}
 .wrap-mypage .box-content .ul-follow-users .li-data .box-profile .box-image img {width:100%;}
@@ -384,6 +393,27 @@ body {padding:75px 0 0; background:#fbfbfb;}
 .wrap-profile .box-profile .box-card .box-act .btn-follow {display:block; height:34px; line-height:34px; text-align:center; font-size:13px; color:#ed642c; background:#fff; border:1px solid #ed642c; border-radius:5px; cursor: pointer; }
 .wrap-profile .box-profile .box-card .box-act .btn-already-follow {height:32px; color:#fff; background:#ed642c; border:1px solid #ed642c; border-bottom:3px solid #d35826; box-shadow: inset 0 1px #f2c0b5;}
 
+.wrap-login .loading-icon {display:none; width:200px; position:absolute; top:50%; left:50%; margin:-75px 0 0 -100px; border:1px solid #d4d4d4;}
+.wrap-login .loading-icon img {width:100%;}
+
+.box-update button {display:inline-block; width:100%; height:41px; margin:20px 0 0; line-height:34px; text-align:center; font-size:14px; color:#fff; background:#ed642c; border:1px solid #ed642c; border-bottom:3px solid #d35826; box-shadow: inset 0 1px #f2c0b5; border-radius:5px; cursor: pointer;}
+.box-update button:hover {background:#e35216; border:1px solid #e35216; border-bottom:3px solid #bb4414; box-shadow: inset 0 1px #eea08d;}
+
+.wrap-register .box-update .box-edit-required {float: none;}
+.wrap-register .box-update .box-required label {width:110px;}
+.wrap-register .box-update .box-edit-required .box-update {float: none; margin:0 auto;}
+
+.wrap-register .box-update .box-profile .box-left {float:none; margin:0 auto;}
+.wrap-register .box-update-wd {width:300px; height:auto; padding-bottom:25px;}
+.wrap-register .box-right .recommend-edit {padding:20px 0 0;} 
+.wrap-register .social-user {font-size:12px; color:#ed642c;}
+
+.wrap-register .box-right .box-password-change label {float:none; clear:both; width:calc(100% - 18px); height:auto; margin:0 0 10px; padding:8px 8px 8px 8px; font-size:12px; color:#565656; display:block; cursor:pointer; border:none; border:1px solid #d4d4d4; background:#f4f4f4; border-radius:5px; position:relative;}
+.wrap-register .box-right .box-password-change label span {position:relative; top:-4px; color:#565656;}
+.wrap-register .box-right .box-password-change label:before {width:15px; height:15px; background:#fff; border:1px solid #d4d4d4; border-radius:5px; content:''; display:inline-block; margin:0 10px 0 0;}
+.wrap-register .box-right .box-password-change input[type=checkbox]:checked + label {}
+.wrap-register .box-right .box-password-change input[type=checkbox]:checked + label:before {background:#fff url('../images/checks.png') center center no-repeat; background-size:12px;}
+.wrap-register .box-right .box-change-password {display:none;}
 
 
 

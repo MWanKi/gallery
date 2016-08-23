@@ -12,6 +12,12 @@ use App\Comment;
 
 use App\Article;
 
+use Validator;
+
+// import the Intervention Image Manager Class
+use Intervention\Image\ImageManagerStatic as Image;
+
+
 class MemberController extends Controller
 {
     function userpage($user_id, Request $request) {
@@ -199,5 +205,61 @@ class MemberController extends Controller
         } else {
             return 'failed';    
         }
+    }
+
+    function edit($user_id) {
+
+        $user = User::find($user_id);
+
+        if ($user->email == null) {
+            return view('auth.edit',[
+                'user' => $user,
+                'user_social' => $user->social,
+            ]);
+        } else {
+            return view('auth.edit',[
+                'user' => $user
+            ]);
+        }
+        
+    }
+
+    function update($user_id, Request $request) {
+        $user = User::find($user_id);
+
+        if ($user->email == null) {
+            
+        } else {
+            
+        }
+
+        if ($request->image) {
+            $imageName = time() . '.' . $request->file('image')
+                             ->getClientOriginalExtension();
+            
+            // resizing an uploaded file
+            Image::make(
+                $request->file('image'))
+                ->crop(
+                    $request->image_w, 
+                    $request->image_h, 
+                    $request->image_x, 
+                    $request->image_y)
+                ->save('uploads/'.$imageName);
+
+            $user->image = $imageName;
+        }
+
+        if ($request->new_password) {
+            $user->password = bcrypt($request->new_password);
+        }
+
+        $user->intro = $request->introduction;
+        $user->phone = $request->p_num1.$request->p_num2.$request->p_num3;
+        $user->save();            
+
+        return redirect('/mypage/'.$user_id);
+
+
     }
 }
