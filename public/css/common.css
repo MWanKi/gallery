@@ -416,5 +416,26 @@ body {padding:75px 0 0; background:#fbfbfb;}
 .wrap-register .box-right .box-change-password {display:none;}
 
 
+#modal {z-index:9999; display:none; position:fixed; top:50%; left:50%; width:300px; margin:0 0 0 -170px; padding:20px; background:#fff; box-shadow:0 0 5px rgba(0,0,0,0.5);}
+#modal .message {font-size:13px; color:#565656; line-height:1.5; padding:0 0 10px;}
+#modal .box-act {overflow: hidden;}
+#modal .box-act a {display:inline-block; width:143px; height:30px; line-height:30px; text-align:center; font-size:13px; border-radius:5px; color:#565656;}
+#modal .box-act button {display:inline-block; width:145px; height:32px; text-align:center; font-size:13px; border:1px solid #ed642c;  background:#ed642c; border-radius:5px; color:#fff; cursor:pointer;}
+#modal .box-act button:hover {background:#e35216;}
+#modal .box-act .btn-yes {background:#ed642c; color:#fff; float: left; border:1px solid #ed642c; }
+#modal .box-act .btn-yes:hover {background:#e35216;}
+#modal .box-act .btn-no {float: right; border:1px solid #d4d4d4;}
+#modal .box-act .btn-no:hover {background:#f4f4f4;}
+#modal textarea {width:calc(100% - 22px); border:1px solid #d4d4d4; font-size:12px; color:#565656; line-height:1.6; padding:10px; margin:0 0 10px; resize:none;}
+#modal textarea.errorfocus {border:1px solid #ed642c;}
+
+
+
+
+
+
+
+
+
 
 

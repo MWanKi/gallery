@@ -62,20 +62,40 @@ $(document).on("click", ".btn-delete-comment", function() {
 	var link = $(this);
 	var url = link.attr('href');
 	var csrfToken = link.data('csrfToken');
+	var type = link.data('type');
 
-	$.ajax({
-		type: 'delete',
-		url: url,
-		data: {
-			_token: csrfToken
-		}
-	}).done(function() {
-		link.closest('.comment').fadeOut(500, function() {
-			$(this).remove();
-		});	
-	}).error(function() {
-		alert('에러!');
+	modalOpen(type);
+
+	$('#modal .btn-yes').click(function(){
+		$.ajax({
+			type: 'delete',
+			url: url,
+			data: {
+				_token: csrfToken
+			}
+		}).done(function() {
+			link.closest('.comment').fadeOut(500, function() {
+				$(this).remove();
+			});	
+			modalClose();
+		}).error(function() {
+			alert('에러!');
+		});
 	});
+
 
 	return false;
 });
+
+// 댓글 신고
+$(document).on("click", ".btn-comment-report", function() {
+	var link = $(this);
+	var type = link.data("type");
+	var reporter_id = link.data('reporterId');
+	var report_content_id = link.data('reportContentId');
+
+	modalOpen(type);
+	modalDataSet(report_content_id, reporter_id);
+	return false;
+});
+

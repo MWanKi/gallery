@@ -15,7 +15,8 @@
 </div>
 @endif
 
-<span class="blackcover"></span>
+@include('modal/modal')
+
 	<!-- 이미지 크롭 -->
 		<div class="box-modal-crop">
 			<h4>미리보기 이미지 설정</h4>

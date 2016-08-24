@@ -14,6 +14,7 @@
 
 
 Route::resource('/','ArticleController');
+Route::resource('/report','ReportController');
 Route::resource('articles','ArticleController');
 Route::resource('category','ArticleController@categoryA');
 Route::resource('articles/{article_id}/like','ArticleController@like');

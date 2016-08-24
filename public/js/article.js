@@ -403,3 +403,16 @@ $("#multi-users").mention({
     
     ]
 });
+
+// 게시글 신고
+$(document).on("click", ".btn-article-report", function() {
+	var link = $(this);
+	var type = link.data("type");
+	var reporter_id = link.data('reporterId');
+	var report_content_id = link.data('reportContentId');
+
+	modalOpen(type);
+	modalDataSet(report_content_id, reporter_id);
+	return false;
+});
+

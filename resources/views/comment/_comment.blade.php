@@ -10,9 +10,9 @@
 				@if(!auth()->guest())
 					@if($comment->name != auth()->user()->name)
 						<a class="btn-reply" href="#">답글 달기</a>
-						<a href="#">신고</a>
+						<a class="btn-comment-report" href="#" data-type="comment_report" data-report-content-id="{{ $comment->id }}" data-reporter-id="{{ auth()->user()->id }}">신고</a>
 					@else
-						<a href="{{ url('/articles/'.$comment->article_id.'/comments/'.$comment->id) }}" class="btn-delete-comment" data-skip-pjax data-csrf-token="{{ csrf_token() }}">삭제</a>
+						<a href="{{ url('/articles/'.$comment->article_id.'/comments/'.$comment->id) }}" class="btn-delete-comment" data-skip-pjax data-csrf-token="{{ csrf_token() }}" data-type="comment_delete_confirm">삭제</a>
 					@endif
 				@endif
 			</div>

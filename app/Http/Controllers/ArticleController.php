@@ -49,7 +49,9 @@ class ArticleController extends Controller
     }
 
     function create() 
-    {
+    {   if (auth()->guest()) {
+            return redirect('/auth/login');
+        }
         return view('article.create');
     }
 
@@ -155,7 +157,9 @@ class ArticleController extends Controller
 
     function edit($id, Request $request)
     {
-
+        if (auth()->guest()) {
+            return redirect('/auth/login');
+        }
         $article = Article::find($id);
 
         return view('article.edit', [
@@ -180,6 +184,7 @@ class ArticleController extends Controller
 
     function update($id, Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'title' => 'required|max:255',
             'smarteditor' => 'required',

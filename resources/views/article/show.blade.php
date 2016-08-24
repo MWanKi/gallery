@@ -97,11 +97,12 @@
 					<a class="btn-share btn-fb" href="#" onclick="window.open('https://twitter.com/intent/tweet?text=TEXT&url={{ URL::current() }}', '_blank', 'width=550 height=400')"><i class="fa fa-twitter" aria-hidden="true"></i></a>
 				</div>
 				@if(auth()->guest())
+
 				@elseif ($article->writer_key == auth()->user()->name)
 					<a class="btn-list" href="{{ url('/articles/'.$article->id.'/edit') }}">수정</a>
 					<a class="btn-list btn-delete" href="#" data-id="{{ $article->id }}" data-url="{{ url('/articles/'.$article->id) }}" data-csrf-token="{{ csrf_token() }}">삭제</a>
 				@else
-					<a class="btn-list" href="{{ url('/articles') }}">신고</a>
+					<a class="btn-list btn-article-report" data-type="article_report" data-reporter-id="{{ auth()->user()->id }}" data-report-content-id="{{ $article->id }}" data-skip-pjax href="#">신고</a>
 				@endif
 				<a class="btn-list" href="{{ url('/articles') }}">목록</a>
 			</div>
@@ -157,11 +158,13 @@
 		<h3>작가의 프로필</h3>
 		<div class="box-profile cf">
 			<div class="image">
-				@if($article->user->image == '')
-					<img src="{{ url('/images/profile2.png') }}" alt="">
-				@else 
-					<img src="{{ url('/uploads/'.$article->user->image) }}" alt="">
-				@endif
+				<a href="{{ url('/userpage/'.$article->user->id) }}">
+					@if($article->user->image == '')
+						<img src="{{ url('/images/profile2.png') }}" alt="{{ $article->user->name }}">
+					@else 
+						<img src="{{ url('/uploads/'.$article->user->image) }}" alt="{{ $article->user->name }}">
+					@endif
+				</a>
 			</div>
 			<span class="job">Artist</span>
 			<span class="id">{{ $article->writer_key }}</span>

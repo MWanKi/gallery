@@ -90,6 +90,9 @@ class MemberController extends Controller
     }
 
     function mypage($user_id, Request $request) {
+        if (auth()->guest()) {
+            return redirect('/auth/login');
+        }
         $category = $request->category;
         $user = User::find($user_id);
 
@@ -208,6 +211,9 @@ class MemberController extends Controller
     }
 
     function edit($user_id) {
+        if (auth()->guest()) {
+            return redirect('/auth/login');
+        }
 
         $user = User::find($user_id);
 
