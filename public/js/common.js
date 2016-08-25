@@ -24,20 +24,23 @@ FB.init({
 // ----- facebook login -----
 
 // ----- 모달창 -----
-function modalOpen(type, message) {
+function modalOpen(type, error_message) {
 	var message = $('#modal .message');
 	var report = $('#modal .box-report');
 	var confirm = $('#modal .box-confirm');
+	var ok = $('#modal .box-ok');
 
 	switch (type) {
 		case 'comment_delete_confirm':
 			message.text("댓글을 삭제하시겠습니까?");
 			report.hide();
+			ok.hide();
 			confirm.show();
 			break;
 		case 'comment_report':
 			message.text("댓글 신고 사유를 작성해주세요.");
 			report.show();
+			ok.hide();
 			confirm.hide();
 			$('#modal .form-report').attr("data-type", "comment_report");
 			$('#modal textarea').val("").removeClass('errorfocus');
@@ -46,9 +49,17 @@ function modalOpen(type, message) {
 		case 'article_report':
 			message.text("게시글 신고 사유를 작성해주세요.");
 			report.show();
+			ok.hide();
 			confirm.hide();
 			$('#modal .form-report').attr("data-type", "article_report");
 			$('#modal textarea').val("").removeClass('errorfocus');
+			$('.blackcover').fadeIn(150);
+			break;
+		case 'ok':
+			message.html(error_message);
+			report.hide();
+			confirm.hide();
+			ok.show();
 			$('.blackcover').fadeIn(150);
 			break;
 	}
@@ -65,7 +76,7 @@ function modalDataSet(report_content_id, reporter_id) {
 	$('#modal .form-report').attr('data-reporter', reporter_id);
 }
 
-$(document).on("click", "#modal .btn-no", function(){
+$(document).on("click", "#modal .btn-no, #modal .btn-ok", function(){
 	modalClose();
 	return false;
 });

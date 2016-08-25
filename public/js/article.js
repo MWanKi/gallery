@@ -71,17 +71,17 @@ $(function(){
 		            real_height = $pimg[0].naturalHeight;	
 	        	
 		            if (real_width > 1200) {
-		            	alert("가로 사이즈가 1200픽셀보다 작은 이미지를 업로드해주세요.");
+		            	modalOpen('ok',"가로 사이즈가 1200픽셀보다 작은 이미지를 업로드해주세요.");
 		            } else {
 		            	if (real_width < 290) {
 		            		if (real_height < 290) {
-		            			alert("가로, 세로 사이즈가 290픽셀보다 큰 이미지를 업로드해주세요.");	
+		            			modalOpen('ok',"가로, 세로 사이즈가 290픽셀보다 큰 이미지를 업로드해주세요.");	
 		            		} else {
-		            			alert("가로, 세로 사이즈가 290픽셀보다 큰 이미지를 업로드해주세요.");	
+		            			modalOpen('ok',"가로, 세로 사이즈가 290픽셀보다 큰 이미지를 업로드해주세요.");	
 		            		}
 		            	} else {
 		            		if (real_height < 290) {
-		            			alert("가로, 세로 사이즈가 290픽셀보다 큰 이미지를 업로드해주세요.");	
+		            			modalOpen('ok',"가로, 세로 사이즈가 290픽셀보다 큰 이미지를 업로드해주세요.");	
 		            		} else {
 		            			$('.box-modal-crop').fadeIn();
 					        	$('.blackcover').fadeIn();
@@ -298,7 +298,9 @@ $(function(){
 	        }
 
 	        if (error.length > 0) {
-	        	alert(error.join("\n"));
+	        	// alert(error.join("\n"));
+	        	var message = error.join("<br>");
+	        	modalOpen('ok', message);
 	        } else {
 	        	$('input[name=creative]').val($('.box-creative').find('input:checked').parent().index()); // 크리에이티브 값
 				$('input[name=profit]').val($('.box-profit').find('input:checked').parent().index()); // 영리목적 값
@@ -322,17 +324,30 @@ $(function(){
 		} 
 	});
 
-	$(document).on("blur",'input[name=title]', function() {
-		if ($(this).val() != '') {
+	//---------- wk 2016.08.25 수정 ----------
+
+	// $(document).on("blur",'input[name=title]', function() {
+	// 	if ($(this).val() != '') {
+	// 		$(this).removeClass('error');
+	// 	}
+	// });
+
+	// $(document).on("blur",'#tags_tag', function() {
+	// 	if ($('.tag').length > 0) {
+	// 		$('.box-upload .box-tag .wrap-tag').removeClass('error');
+	// 	}
+	// });
+
+	$(document).on("focus",'input[name=title]', function() {
 			$(this).removeClass('error');
-		}
 	});
 
-	$(document).on("blur",'#tags_tag', function() {
-		if ($('.tag').length > 0) {
+	
+	$(document).on("focus",'#tags_tag', function() {
 			$('.box-upload .box-tag .wrap-tag').removeClass('error');
-		}
 	});
+	
+	//---------- wk 2016.08.25 수정 ----------
 
 	$(document).on("click",'.box-upload .box-category > ul li.category-list li a', function() {
 		if ($('input[name=category]').val() != '') {
@@ -389,7 +404,7 @@ $(document).on("click", '.btn-like', function(){
 				$('.like-txt').addClass('liked-txt').text('좋아요를 누르셨습니다.');
 			});
 		} else {
-			alert('로그인 후 이용가능합니다.');
+			modalOpen('ok','로그인 후 이용가능합니다.');
 		}
 
 	}						

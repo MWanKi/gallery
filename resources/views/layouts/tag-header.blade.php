@@ -12,7 +12,7 @@
 			</li> -->
 
 			<li class="li-nav">
-				<a href="{{ url('/category') }}">카테고리A</a>
+				<a href="{{ url('/works') }}">작품</a>
 				<ul class="ul-child">
 					<li class="li-child"> <a href="">조건1</a> </li>
 					<li class="li-child"> <a href="">조건2</a> </li>
@@ -21,7 +21,7 @@
 			</li>
 
 			<li class="li-nav">
-				<a href="{{ url('/category') }}">카테고리B</a>
+				<a href="{{ url('/artist') }}">작가</a>
 				<ul class="ul-child">
 					<li class="li-child"> <a href="">조건1</a> </li>
 					<li class="li-child"> <a href="">조건2</a> </li>
@@ -55,7 +55,7 @@
 				</li>
 			@else
 				<li class="li-nav li-my">
-					<a href="{{ url('/mypage/'.auth()->user()->id) }}">
+					<a href="{{ url('/mypage/'.auth()->user()->id.'?category=works') }}">
 						<div class="box-mini-profile">
 							@if (auth()->user()->image == '')
 								<img src="{{ url('/images/profile2.png') }}" alt="">
@@ -73,16 +73,6 @@
 					<a class="btn-upload" href="{{ url('articles/create') }}">업로드</a>
 				</li>
 			@endif
-			<!-- <li class="li-nav">
-				<form action="" method="post">
-					{{ @csrf_field() }}
-					<p>
-						<input type="text" name="" id="">
-						<button type="submit">제출</button>
-					</p>
-				</form>
-			</li> -->
-			
 		</ul>
 	</div>
 </div>

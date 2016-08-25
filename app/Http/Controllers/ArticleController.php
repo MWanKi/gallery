@@ -35,16 +35,61 @@ class ArticleController extends Controller
 		]);
     }
 
-    function categoryA(Request $request) 
+    function works(Request $request) 
     {
-        $articles = Article::where('deleted', false)
-                            ->where('category', 1)
-                            ->orderBy('created_at', 'desc')
-                            ->take(15)
-                            ->get();
+        if (isset($request->cate)) {
+            switch ($request->cate) {
 
-        return view('gallery.categoryA', [
-            'articles' => $articles
+                case 'A':
+                    $articles = Article::where('deleted', false)
+                            ->where('category',0)
+                            ->orderBy('created_at', 'desc')
+                            ->get();    
+                    $category = 'A';
+                    break;
+                case 'B':
+                    $articles = Article::where('deleted', false)
+                            ->where('category',1)
+                            ->orderBy('created_at', 'desc')
+                            ->get();    
+                    $category = 'B';
+                    break;
+                case 'C':
+                    $articles = Article::where('deleted', false)
+                            ->where('category',2)
+                            ->orderBy('created_at', 'desc')
+                            ->get();    
+                    $category = 'C';
+                    break;
+                case 'D':
+                    $articles = Article::where('deleted', false)
+                            ->where('category',3)
+                            ->orderBy('created_at', 'desc')
+                            ->get();   
+                    $category = 'D';
+                    break;    
+            }
+        } else {
+            $articles = Article::where('deleted', false)
+                            ->orderBy('created_at', 'desc')
+                            ->get();    
+                    $category = '';
+        }
+        
+        return view('gallery.works', [
+            'articles' => $articles,
+            'category' => $category
+        ]);
+    }
+
+    function artist(Request $request) 
+    {
+        $users = User::where('deleted', false)
+                        ->orderBy('follower_count', 'desc')
+                        ->get();
+
+        return view('gallery.artist', [
+            'users' => $users
         ]);
     }
 

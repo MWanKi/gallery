@@ -43,6 +43,5 @@
 		<div class="wrap_main" id="pjax-container">
 			@yield('content')
 		</div>
-		@include('modal/modal')
 	</body>
 </html>

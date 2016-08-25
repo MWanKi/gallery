@@ -15,4 +15,7 @@
 		<a href="#" data-skip-pjax class="btn-yes">확인</a>
 		<a href="#" data-skip-pjax class="btn-no">취소</a>
 	</div>
+	<div class="box-act box-ok">
+		<a href="#" data-skip-pjax class="btn-ok">확인</a>
+	</div>
 </div>

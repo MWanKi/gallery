@@ -17,7 +17,7 @@
 	@foreach($errors->all() as $error)
 		{{ $error }}
 	@endforeach
-
+	@include('modal/modal')
 	<div class="box-show">
 		<div class="box-header">
 			<h2>{{ $article->title }}</h2>

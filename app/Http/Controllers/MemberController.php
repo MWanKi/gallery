@@ -177,6 +177,7 @@ class MemberController extends Controller
             $follower = array_filter(explode(',', $followed_user->follower));
             array_push($follower, '*'.$user->id.'*');
             $followed_user->follower = implode(',', $follower);
+            $followed_user->follower_count = count($follower);
             $followed_user->save();
 
             return 'success';    
@@ -202,6 +203,7 @@ class MemberController extends Controller
             $key2 = array_search('*'.$user->id.'*', $follower_list);
             array_splice($follower_list, $key2, 1);
             $follower->follower = implode(',',$follower_list);
+            $follower->follower_count = count($follower_list);
             $follower->save();
 
             return 'success';    

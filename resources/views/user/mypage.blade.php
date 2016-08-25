@@ -180,6 +180,31 @@
 				</ul>
 			</div>
 		@endif
+		
+		@if(isset($_GET['category']))
+			@if(($_GET['category'] == '' || $_GET['category'] == 'works') && count($articles) == 0)
+				<p class="none-article">
+					<span><i class="fa fa-picture-o" aria-hidden="true"></i></span>
+					작성한 작품이 없습니다.
+				</p>
+			@elseif($_GET['category'] == 'likes' && count($articles) == 0)
+				<p class="none-article">
+					<span><i class="fa fa-picture-o" aria-hidden="true"></i></span>
+					좋아요한 작품이 없습니다.
+				</p>
+			@elseif($_GET['category'] == 'follow' && count($users) == 0)
+				<p class="none-article">
+					<span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+					팔로우가 없습니다.
+				</p>
+			@elseif($_GET['category'] == 'follower' && count($users) == 0)
+				<p class="none-article">
+					<span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+					팔로워가 없습니다.
+				</p>
+			@endif
+		@endif
+		
 	</div>
 </div>
 @endsection

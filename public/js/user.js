@@ -264,16 +264,35 @@ $(document).on("click", "#reset-password-submit", function(){
 	return false;
 });
 
+// 개인정보수정 - 비밀번호 변경
 $(document).on("click", ".box-password-change label", function(){
 	$('.box-change-password').toggle();
 	$("input[name=new_password]").val("");
 	$("input[name=new_password_confirmation]").val("");
 });
 
-
+// 개인정보수정 validation
 $(document).on("submit", ".update-profile", function(){
 	var new_password = $("input[name=new_password]");
 	var new_password_check = $("input[name=new_password_confirmation]");
+	var p_num1 = $('input[name=p_num1]');
+	var p_num2 = $('input[name=p_num2]');
+	var p_num3 = $('input[name=p_num3]');
+
+	if (p_num1.val().length < 3) {
+		p_num1.addClass('errorfocus');
+		return false;
+	}
+
+	if (p_num2.val().length < 3) {
+		p_num2.addClass('errorfocus');
+		return false;
+	}
+
+	if (p_num3.val().length < 4) {
+		p_num3.addClass('errorfocus');
+		return false;
+	}
 
 	if (new_password.val().length < 6) {
 		new_password.addClass('errorfocus');

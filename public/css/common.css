@@ -362,7 +362,7 @@ body {padding:75px 0 0; background:#fbfbfb;}
 .wrap-profile .box-sub-menu ul li a p.name {font-size:13px;}
 .wrap-profile .box-sub-menu ul li a p.count {font-size:16px; padding:10px 0 0; font-weight:bold;}
 .wrap-mypage .box-content h2 {padding:0px 15px; font-size:16px; font-weight:bold; color:#565656; }
-.wrap-mypage .box-content .ul-like-articles {overflow: hidden;}
+.wrap-mypage .box-content .ul-like-articles {overflow: hidden; padding:0 0 50px;}
 .wrap-mypage .box-content .ul-like-articles li.li-data {float: left; width:281px; margin:15px; background:#fff; border-right:1px solid #d4d4d4; border-bottom:2px solid #d4d4d4; box-shadow:0 0 2px rgba(0,0,0,0.3); }
 .wrap-mypage .box-content .ul-like-articles li .box-image {width:282px; height:282px; border-bottom:1px solid #d4d4d4;}
 .wrap-mypage .box-content .ul-like-articles li .box-image img {width:100%; -webkit-transition:.1s all ease-in; -o-transition:.1s all ease-in; transition:.1s all ease-in;}
@@ -377,7 +377,7 @@ body {padding:75px 0 0; background:#fbfbfb;}
 .wrap-mypage .box-content .ul-like-articles li .box-etc li {float: left; padding:0 40px 0 0;}
 .wrap-mypage .box-content .ul-like-articles li .box-etc li span {font-size:14px; color:#9a9a9a;}
 .wrap-mypage .box-content .ul-like-articles li .box-etc li span.icon {padding:0 5px 0 0;}
-.wrap-mypage .box-content .ul-follow-users {padding:10px 0 0;}
+.wrap-mypage .box-content .ul-follow-users {padding:10px 0 60px; overflow: hidden;}
 .wrap-mypage .box-content .ul-follow-users .li-data {width:228px; margin:10px; padding:10px 0 0; float:left; border-right:1px solid #d4d4d4; border-bottom:2px solid #d4d4d4; box-shadow:0 0 2px rgba(0,0,0,0.3); background:#fff;}
 .wrap-mypage .box-content .ul-follow-users .li-data .box-profile .name {font-size:16px; padding:0 0 10px; color:#565656; text-align:center;}
 .wrap-mypage .box-content .ul-follow-users .li-data .box-profile .box-image {margin:20px auto; width:70px; height:70px; overflow: hidden; border-radius:50%; border:1px solid #d4d4d4;}
@@ -428,13 +428,35 @@ body {padding:75px 0 0; background:#fbfbfb;}
 #modal .box-act .btn-no:hover {background:#f4f4f4;}
 #modal textarea {width:calc(100% - 22px); border:1px solid #d4d4d4; font-size:12px; color:#565656; line-height:1.6; padding:10px; margin:0 0 10px; resize:none;}
 #modal textarea.errorfocus {border:1px solid #ed642c;}
+#modal .box-ok {display:none;}
+#modal .box-ok .btn-ok {width:100%; background:#ed642c; color:#fff;}
+#modal .box-ok .btn-ok:hover {background:#e35216;}
 
 
 
+.wrap-mypage .none-article {font-size:18px; color:#9a9a9a; text-align:center; padding:50px 0;}
+.wrap-mypage .none-article span {display:block; font-size:60px; text-align:center; margin:0 0 30px;}
+
+.wrap-artist .ul-follow-users {padding:10px 0 0;}
+.wrap-artist .ul-follow-users .li-data {width:228px; margin:10px; padding:10px 0 0; float:left; border-right:1px solid #d4d4d4; border-bottom:2px solid #d4d4d4; box-shadow:0 0 2px rgba(0,0,0,0.3); background:#fff;}
+.wrap-artist .ul-follow-users .li-data .box-profile .name {font-size:16px; padding:0 0 10px; color:#565656; text-align:center;}
+.wrap-artist .ul-follow-users .li-data .box-profile .box-image {margin:20px auto; width:70px; height:70px; overflow: hidden; border-radius:50%; border:1px solid #d4d4d4;}
+.wrap-artist .ul-follow-users .li-data .box-profile .box-image img {width:100%;}
+.wrap-artist .ul-follow-users .li-data .box-etc ul {text-align:center; padding:10px 0 20px;}
+.wrap-artist .ul-follow-users .li-data .box-etc ul li {display:inline-block; margin:0 15px; color:#9a9a9a;}
+.wrap-artist .ul-follow-users .li-data .box-etc ul li span {font-size:13px;}
+.wrap-artist .ul-follow-users .li-data .box-act {border-top: 1px solid #ededed; text-align:center; padding:10px;}
+.wrap-artist .ul-follow-users .li-data .box-act .btn-follow {display:block; height:34px; line-height:34px; text-align:center; font-size:13px; color:#ed642c; background:#fff; border:1px solid #ed642c; border-radius:5px; cursor: pointer; }
+.wrap-artist .ul-follow-users .li-data .box-act .btn-already-follow {height:32px; color:#fff; background:#ed642c; border:1px solid #ed642c; border-bottom:3px solid #d35826; box-shadow: inset 0 1px #f2c0b5;}
+.wrap-artist .ul-follow-users .li-data .box-act .btn-follow.disabled {border:1px solid #d4d4d4; color:#9a9a9a; cursor:default;}
 
 
-
-
+.ul-works-cate {overflow: hidden; margin:0 0 20px; padding:0 0 15px; border-bottom:1px solid #d4d4d4;}
+.ul-works-cate li {float: left; margin:0 12px 0 0; padding:0 10px 0 0; border-right:1px solid #ed642c;}
+.ul-works-cate li:last-child {border:none;}
+.ul-works-cate li a {font-size:13px; color:#565656;}
+.ul-works-cate li a.on {color:#ed642c;}
+.ul-works-cate li a:hover {color:#ed642c;}
 
 
 

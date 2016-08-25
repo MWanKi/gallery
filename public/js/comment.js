@@ -3,7 +3,7 @@ $(document).on('submit', '#form-comment', function() {
 	var form = $(this);
 
 	if (form.hasClass('disabled')) {
-		alert('회원만 댓글을 작성할 수 있습니다.');
+		modalOpen('ok','회원만 댓글을 작성할 수 있습니다.');
 		return false;
 	}
 
@@ -13,7 +13,7 @@ $(document).on('submit', '#form-comment', function() {
 	var content = input.val();
 
 	if (!content) {
-		alert('댓글 내용을 입력해주세요.');
+		modalOpen('ok','댓글 내용을 입력해주세요.');
 		$('textarea[name=content]').addClass('error').on('focus.validation-error', function() {
 			$(this).removeClass('error').off('focus.validation-error');
 		});
@@ -37,9 +37,9 @@ $(document).on('submit', '#form-comment', function() {
 
 	}).error(function(xhr) {
 		if (xhr.responseJSON && xhr.responseJSON.errors) {
-			alert(xhr.responseJSON.errors[0]);
+			modalOpen('ok',xhr.responseJSON.errors[0]);
 		} else {
-			alert('댓글 쓰기 실패!');
+			modalOpen('ok','댓글 쓰기 실패!');
 		}
 	});
 
@@ -79,7 +79,7 @@ $(document).on("click", ".btn-delete-comment", function() {
 			});	
 			modalClose();
 		}).error(function() {
-			alert('에러!');
+			modalOpen('ok','에러!');
 		});
 	});
 
