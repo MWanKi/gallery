@@ -67,6 +67,24 @@ class ArticleController extends Controller
                             ->orderBy('created_at', 'desc')
                             ->get();   
                     $category = 'D';
+                    break;   
+                case 'new':
+                    $articles = Article::where('deleted', false)
+                            ->orderBy('created_at', 'desc')
+                            ->get();   
+                    $category = 'new';
+                    break;   
+                case 'hit':
+                    $articles = Article::where('deleted', false)
+                            ->orderBy('hit_count', 'desc')
+                            ->get();   
+                    $category = 'hit';
+                    break;   
+                case 'like':
+                    $articles = Article::where('deleted', false)
+                            ->orderBy('like_count', 'desc')
+                            ->get();   
+                    $category = 'like';
                     break;    
             }
         } else {
@@ -87,6 +105,7 @@ class ArticleController extends Controller
         $users = User::where('deleted', false)
                         ->orderBy('follower_count', 'desc')
                         ->get();
+
 
         return view('gallery.artist', [
             'users' => $users
@@ -112,8 +131,8 @@ class ArticleController extends Controller
             if (!in_array($writer->id, $hit_list)) {
                 $article->hit = $article->hit.','.$writer->id;
                 $article->hit = array_filter(explode(',',$article->hit));
+                $article->hit_count = count($article->hit);
                 $article->hit = implode(',',$article->hit);
-                // $article->hit = implode(','array_filter(explode(',',$article->hit.','.$writer->id)));
                 $article->save();
             }
         } else {
@@ -122,7 +141,9 @@ class ArticleController extends Controller
 
             if (!in_array($client_ip, $hit_list)) {
                 $article->hit = $article->hit.','.$client_ip;
-                // $article->hit = implode(','array_filter(explode(',',$article->hit.','.$client_ip)));
+                $article->hit = array_filter(explode(',',$article->hit));
+                $article->hit_count = count($article->hit);
+                $article->hit = implode(',',$article->hit);
                 $article->save();
             }
         }
@@ -157,6 +178,7 @@ class ArticleController extends Controller
         } else {
             $article->like = $article->like.','.'*'.$request->name.'*';
             $article->like = array_filter(explode(',', $article->like));
+            $article->like_count = count($article->like);
             $article->like = implode(',', $article->like);
             $article->save();
 
@@ -279,7 +301,6 @@ class ArticleController extends Controller
     
     function store(Request $request) 
     {
-
         $validator = Validator::make($request->all(), [
             'title' => 'required|max:255',
             'smarteditor' => 'required',

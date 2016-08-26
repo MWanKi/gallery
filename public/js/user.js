@@ -171,7 +171,15 @@ $(document).on("click", ".wrap-register .box-right .box-agree label", function()
 	}
 });
 
+$(document).on("click", ".btn-regist", function(){
+	registValidation();
+});
+
 $(document).on("submit", ".regist-form", function(){
+	registValidation();
+});
+
+function registValidation() {
 	setTimeout(function() {
 		if (!$(this).hasClass('disabled')) {
 
@@ -214,8 +222,7 @@ $(document).on("submit", ".regist-form", function(){
 			return false;
 		}
 	}, 300);
-	
-});
+}
 
 $(document).on("click", "#reset-password-submit", function(){
 	var url = $(this).data('url');

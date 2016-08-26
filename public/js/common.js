@@ -44,7 +44,6 @@ function modalOpen(type, error_message) {
 			confirm.hide();
 			$('#modal .form-report').attr("data-type", "comment_report");
 			$('#modal textarea').val("").removeClass('errorfocus');
-			$('.blackcover').fadeIn(150);
 			break;
 		case 'article_report':
 			message.text("게시글 신고 사유를 작성해주세요.");
@@ -53,17 +52,21 @@ function modalOpen(type, error_message) {
 			confirm.hide();
 			$('#modal .form-report').attr("data-type", "article_report");
 			$('#modal textarea').val("").removeClass('errorfocus');
-			$('.blackcover').fadeIn(150);
 			break;
 		case 'ok':
 			message.html(error_message);
 			report.hide();
 			confirm.hide();
 			ok.show();
-			$('.blackcover').fadeIn(150);
+			break;
+		case 'confirm':
+			message.html(error_message);
+			report.hide();
+			ok.hide();
+			confirm.show();
 			break;
 	}
-
+	$('.blackcover').fadeIn(150);
 	$('#modal').fadeIn(150);
 }
 

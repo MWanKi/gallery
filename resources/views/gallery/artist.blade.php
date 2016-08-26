@@ -9,7 +9,7 @@
 		<ul class="ul-follow-users">
 			@foreach($users as $user)
 				<li class="li-data">
-					<a href="{{ url('/userpage/'.$user->id) }}">
+					<a href="{{ url('/userpage/'.$user->id.'?category=works') }}">
 						<div class="box-profile">
 							<div class="box-image">
 								@if ($user->image != '')
@@ -37,15 +37,28 @@
 							</li>
 						</ul>
 					</div>
+
+					<div class="box-article">
+						<ul>
+							@foreach($user->articles->where('deleted', 0)->take(8) as $article)
+								<li><a href="{{ url('/articles/'.$article->id) }}"><img src="{{ url('/uploads/'.$article->image) }}" alt="{{ $article->title }}"></a></li>
+							@endforeach
+						</ul>
+					</div>
+
 					<div class="box-act">
-						@if ($user->id == auth()->user()->id)
-							<a class="btn-follow disabled" href="#"><span>본인입니다.</span></a>
-						@else
+						@if (!auth()->guest())
 							@if (in_array('*'.$user->id.'*', explode(',',auth()->user()->follow)))
 								<a class="btn-follow btn-already-follow" data-id="{{ $user->id }}" data-cancel-url="{{ url('/followcancel') }}" data-url="{{ url('/follow') }}" data-csrf-token="{{ csrf_token() }}" href="#"><i class="fa fa-star" aria-hidden="true"></i> <span>현재 팔로우 중입니다.</span></a>
 							@else
-								<a class="btn-follow" data-id="{{ $user->id }}" data-cancel-url="{{ url('/followcancel') }}" data-url="{{ url('/follow') }}" data-csrf-token="{{ csrf_token() }}" href="#"><i class="fa fa-star" aria-hidden="true"></i> <span>팔로우</span></a>
+								@if ($user->id == auth()->user()->id)
+									<a class="btn-follow disabled" href="#"><span>본인입니다.</span></a>
+								@else
+									<a class="btn-follow" data-id="{{ $user->id }}" data-cancel-url="{{ url('/followcancel') }}" data-url="{{ url('/follow') }}" data-csrf-token="{{ csrf_token() }}" href="#"><i class="fa fa-star" aria-hidden="true"></i> <span>팔로우</span></a>
+								@endif
 							@endif
+						@else
+							<a class="btn-follow" href="{{ url('/auth/login') }}"><i class="fa fa-star" aria-hidden="true"></i> <span>팔로우</span></a>
 						@endif
 					</div>
 				</li>

@@ -140,7 +140,7 @@
 				<ul class="ul-follow-users">
 					@foreach($users as $user)
 						<li class="li-data">
-							<a href="{{ url('/userpage/'.$user->id) }}">
+							<a href="{{ url('/userpage/'.$user->id.'?category=works') }}">
 								<div class="box-profile">
 									<div class="box-image">
 										@if ($user->image != '')
@@ -195,12 +195,12 @@
 			@elseif($_GET['category'] == 'follow' && count($users) == 0)
 				<p class="none-article">
 					<span><i class="fa fa-star-o" aria-hidden="true"></i></span>
-					팔로우가 없습니다.
+					관심 아티스트가 없습니다.
 				</p>
 			@elseif($_GET['category'] == 'follower' && count($users) == 0)
 				<p class="none-article">
 					<span><i class="fa fa-star-o" aria-hidden="true"></i></span>
-					팔로워가 없습니다.
+					팬이 없습니다.
 				</p>
 			@endif
 		@endif

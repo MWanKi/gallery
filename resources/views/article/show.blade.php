@@ -104,13 +104,13 @@
 				@else
 					<a class="btn-list btn-article-report" data-type="article_report" data-reporter-id="{{ auth()->user()->id }}" data-report-content-id="{{ $article->id }}" data-skip-pjax href="#">신고</a>
 				@endif
-				<a class="btn-list" href="{{ url('/articles') }}">목록</a>
+				<a class="btn-list" href="{{ url('/works') }}">목록</a>
 			</div>
 		</div>
 		<div class="box-delete-complete">
 			<img src="{{ url('/images/smile.png') }}" alt="">
 			<p>게시글이 정상적으로 삭제 되었습니다.</p>
-			<a class="btn-list" href="{{ url('/') }}">게시글 목록보기</a>
+			<a class="btn-list" href="{{ url('/works') }}">게시글 목록보기</a>
 		</div>
 
 		<div class="box-comment">

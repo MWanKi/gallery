@@ -361,11 +361,14 @@ $(function(){
 
 // 게시글 삭제
 $(document).on("click", ".btn-delete", function(){
-	if (confirm("삭제하신 게시글은 복구가 불가능합니다.\n정말 삭제하시겠습니까?")) {
 
-		var url = $(this).data('url');
-		var csrfToken = $(this).data('csrfToken');
+	var url = $(this).data('url');
+	var csrfToken = $(this).data('csrfToken');
 
+	modalOpen('confirm', "삭제하신 게시글은 복구가 불가능합니다.<br>정말 삭제하시겠습니까?");
+
+	$('.btn-yes').click(function(){
+		
 		$.ajax({
 			type: 'delete',
 			url: url,
@@ -378,8 +381,12 @@ $(document).on("click", ".btn-delete", function(){
 				$('.box-delete-complete').fadeIn(300);
 			});
 			$('.box-show div').fadeOut(300);
+			modalClose();
 		});
-	}
+	
+		return false;
+	});
+		
 	return false;
 });
 

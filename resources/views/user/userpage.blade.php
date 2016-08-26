@@ -1,6 +1,6 @@
 @extends('layouts/gallery')
 @section('title')
-:: {{ auth()->user()->name }}
+:: {{ $user->name }}
 @endsection
 @section('content')
 <div class="wrap-profile">
@@ -24,10 +24,12 @@
 				</p>
 			</div>
 			<div class="box-act">
-				@if (in_array('*'.$user->id.'*', explode(',',auth()->user()->follow)))
-					<a class="btn-follow btn-already-follow" data-id="{{ $user->id }}" data-cancel-url="{{ url('/followcancel') }}" data-url="{{ url('/follow') }}" data-csrf-token="{{ csrf_token() }}" href="#"><i class="fa fa-star" aria-hidden="true"></i> <span>현재 팔로우 중입니다.</span></a>
-				@else
-					<a class="btn-follow" data-id="{{ $user->id }}" data-cancel-url="{{ url('/followcancel') }}" data-url="{{ url('/follow') }}" data-csrf-token="{{ csrf_token() }}" href="#"><i class="fa fa-star" aria-hidden="true"></i> <span>팔로우</span></a>
+				@if (!auth()->guest())
+					@if (in_array('*'.$user->id.'*', explode(',',auth()->user()->follow)))
+						<a class="btn-follow btn-already-follow" data-id="{{ $user->id }}" data-cancel-url="{{ url('/followcancel') }}" data-url="{{ url('/follow') }}" data-csrf-token="{{ csrf_token() }}" href="#"><i class="fa fa-star" aria-hidden="true"></i> <span>현재 팔로우 중입니다.</span></a>
+					@else
+						<a class="btn-follow" data-id="{{ $user->id }}" data-cancel-url="{{ url('/followcancel') }}" data-url="{{ url('/follow') }}" data-csrf-token="{{ csrf_token() }}" href="#"><i class="fa fa-star" aria-hidden="true"></i> <span>팔로우</span></a>
+					@endif
 				@endif
 			</div>
 		</div>
@@ -146,7 +148,11 @@
 				<ul class="ul-follow-users">
 					@foreach($users as $user)
 						<li class="li-data">
-							<a href="{{ $user->id == auth()->user()->id ? url('/mypage/'.$user->id) : url('/userpage/'.$user->id) }}">
+							@if(!auth()->guest()) 
+								<a href="{{ $user->id == auth()->user()->id ? url('/mypage/'.$user->id.'?category=works') : url('/userpage/'.$user->id.'?category=works') }}">
+							@else
+								<a href="#">
+							@endif
 								<div class="box-profile">
 									<div class="box-image">
 										@if ($user->image != '')
@@ -175,20 +181,48 @@
 								</ul>
 							</div>
 							<div class="box-act">
-								@if (in_array('*'.$user->id.'*', explode(',',auth()->user()->follow)))
-									<a class="btn-follow btn-already-follow" data-id="{{ $user->id }}" data-cancel-url="{{ url('/followcancel') }}" data-url="{{ url('/follow') }}" data-csrf-token="{{ csrf_token() }}" href="#"><i class="fa fa-star" aria-hidden="true"></i> <span>현재 팔로우 중입니다.</span></a>
-								@else
-									@if ($user->id == auth()->user()->id)
-										<a class="btn-follow disabled" href="#"><span>본인입니다.</span></a>
+								@if (!auth()->guest())
+									@if (in_array('*'.$user->id.'*', explode(',',auth()->user()->follow)))
+										<a class="btn-follow btn-already-follow" data-id="{{ $user->id }}" data-cancel-url="{{ url('/followcancel') }}" data-url="{{ url('/follow') }}" data-csrf-token="{{ csrf_token() }}" href="#"><i class="fa fa-star" aria-hidden="true"></i> <span>현재 팔로우 중입니다.</span></a>
 									@else
-										<a class="btn-follow" data-id="{{ $user->id }}" data-cancel-url="{{ url('/followcancel') }}" data-url="{{ url('/follow') }}" data-csrf-token="{{ csrf_token() }}" href="#"><i class="fa fa-star" aria-hidden="true"></i> <span>팔로우</span></a>
+										@if ($user->id == auth()->user()->id)
+											<a class="btn-follow disabled" href="#"><span>본인입니다.</span></a>
+										@else
+											<a class="btn-follow" data-id="{{ $user->id }}" data-cancel-url="{{ url('/followcancel') }}" data-url="{{ url('/follow') }}" data-csrf-token="{{ csrf_token() }}" href="#"><i class="fa fa-star" aria-hidden="true"></i> <span>팔로우</span></a>
+										@endif
 									@endif
+								@else
+									<a class="btn-follow" href="{{ url('/auth/login') }}"><i class="fa fa-star" aria-hidden="true"></i> <span>팔로우</span></a>
 								@endif
 							</div>
 						</li>
 					@endforeach
 				</ul>
 			</div>
+		@endif
+
+		@if(isset($_GET['category']))
+			@if(($_GET['category'] == '' || $_GET['category'] == 'works') && count($articles) == 0)
+				<p class="none-article">
+					<span><i class="fa fa-picture-o" aria-hidden="true"></i></span>
+					작성한 작품이 없습니다.
+				</p>
+			@elseif($_GET['category'] == 'likes' && count($articles) == 0)
+				<p class="none-article">
+					<span><i class="fa fa-picture-o" aria-hidden="true"></i></span>
+					좋아요한 작품이 없습니다.
+				</p>
+			@elseif($_GET['category'] == 'follow' && count($users) == 0)
+				<p class="none-article">
+					<span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+					관심 아티스트가 없습니다.
+				</p>
+			@elseif($_GET['category'] == 'follower' && count($users) == 0)
+				<p class="none-article">
+					<span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+					팬이 없습니다.
+				</p>
+			@endif
 		@endif
 	</div>
 </div>
