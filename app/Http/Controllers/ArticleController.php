@@ -36,17 +36,26 @@ class ArticleController extends Controller
     }
 
     function subscription() {
-         $articles = Article::where('deleted', false)
+        if (auth()->guest()) {
+            return redirect('/auth/login');
+        } else {
+
+            $follow_user = str_replace('*','',auth()->user()->follow);
+            $users = explode(',',$follow_user);
+
+            $articles = Article::where('deleted', false)
+                            ->whereIn('user_id', $users)
                             ->orderBy('created_at', 'desc')
-                            ->paginate(25);
-                    $articles->setPath('works');     
+                            ->paginate(16);
+                    $articles->setPath('');     
                     $category = '';
         
         
-        return view('gallery.works', [
-            'articles' => $articles,
-            'category' => $category
-        ]);
+            return view('gallery.subscription', [
+                'articles' => $articles,
+                'category' => $category
+            ]);
+        }
     }
 
     function works(Request $request) 

@@ -35,13 +35,13 @@ class MemberController extends Controller
         $writed_articles = Article::where('user_id', $user->id)
                                     ->where('deleted', false)
                                     ->orderBy('id', 'desc')
-                                    ->get();        
+                                    ->paginate(16);       
 
         // 좋아요를 누른 게시물
         $like_articles = Article::where('like', 'LIKE', '%*'.$user->name.'*%')
                             ->where('deleted', false)
                             ->orderBy('id', 'desc') 
-                            ->get();
+                            ->paginate(16);  
 
 
         $articles = array();
@@ -49,7 +49,7 @@ class MemberController extends Controller
 
         // 팔로우
         $follow = explode(',', str_replace('*','',$user->follow));
-        $follow = User::whereIn('id', $follow)->get();
+        $follow = User::whereIn('id', $follow)->paginate(20);
         $follow_list = array();
         $follow_like_count = 0;
 
@@ -58,24 +58,29 @@ class MemberController extends Controller
 
         if ($category == '' || $category == 'works') {
             $title = '게시한 작품들입니다.';
+            $writed_articles->setPath('?category='.$request->category);
             $articles = $writed_articles;
 
         } else if ($category == 'likes') {
             $title = '좋아요를 누른 작품들입니다.';
+            $like_articles->setPath('?category='.$request->category);
             $articles = $like_articles;
 
         } else if ($category == 'follow') {
             $title = '팔로우 하는 작가들입니다.';
+            $follow->setPath('?category='.$request->category);
             $users = $follow;
 
         } else if ($category == 'follower') {
             $title = '나를 팔로우 하는 사람들입니다.';
+            $followers = User::where('follow', 'Like', '%*'.$user->id.'*%')->paginate(20);
+            $followers->setPath('?category='.$request->category);
             $users = $followers;
         }
             
 
         // 작성한 게시물 개수
-        $count_aritlces = count($writed_articles);
+        $count_aritlces = $user->upload_articles;
 
         // 좋아요 게시물 개수
         $count_like = count($like_articles);
@@ -107,13 +112,13 @@ class MemberController extends Controller
         $writed_articles = Article::where('user_id', $user->id)
                                     ->where('deleted', false)
                                     ->orderBy('id', 'desc')
-                                    ->get();        
+                                    ->paginate(16);        
 
         // 좋아요를 누른 게시물
         $like_articles = Article::where('like', 'LIKE', '%*'.$user->name.'*%')
                             ->where('deleted', false)
                             ->orderBy('id', 'desc') 
-                            ->get();
+                            ->paginate(16);       
 
 
         $articles = array();
@@ -121,7 +126,7 @@ class MemberController extends Controller
 
         // 팔로우
         $follow = explode(',', str_replace('*','',$user->follow));
-        $follow = User::whereIn('id', $follow)->get();
+        $follow = User::whereIn('id', $follow)->paginate(20);
         $follow_list = array();
         $follow_like_count = 0;
 
@@ -130,27 +135,36 @@ class MemberController extends Controller
 
         if ($category == '' || $category == 'works') {
             $title = '게시한 작품들입니다.';
+            $writed_articles->setPath('?category='.$request->category);
             $articles = $writed_articles;
 
         } else if ($category == 'likes') {
             $title = '좋아요를 누른 작품들입니다.';
+            $like_articles->setPath('?category='.$request->category);
             $articles = $like_articles;
 
         } else if ($category == 'follow') {
             $title = '팔로우 하는 작가들입니다.';
+            $follow->setPath('?category='.$request->category);
             $users = $follow;
 
         } else if ($category == 'follower') {
             $title = '나를 팔로우 하는 사람들입니다.';
+            $followers = User::where('follow', 'Like', '%*'.$user->id.'*%')->paginate(20);
+            $followers->setPath('?category='.$request->category);
             $users = $followers;
         }
             
 
         // 작성한 게시물 개수
-        $count_aritlces = count($writed_articles);
+        $count_aritlces = $user->upload_articles;
 
         // 좋아요 게시물 개수
-        $count_like = count($like_articles);
+        $count_likes = Article::where('like', 'LIKE', '%*'.$user->name.'*%')
+                            ->where('deleted', false)
+                            ->orderBy('id', 'desc') 
+                            ->get();   
+        $count_like = count($count_likes);
 
         return view('user.mypage', [
             'user' => $user,

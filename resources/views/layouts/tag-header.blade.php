@@ -2,8 +2,13 @@
 	<div class="box-header">
 		<h1 class="logo"><a href="{{ url('/articles') }}"><img src="{{ url('images/logo(84.24px)_bk.png') }}" alt=""></a></h1>
 		<ul class="ul-nav cf">
+			@if (!auth()->guest())
+				<li class="li-nav">
+					<a class="{{ strpos($_SERVER['REQUEST_URI'], 'subscription') ? 'on' : ''}}" href="{{ url('/subscription') }}">구독함</a>
+				</li>
+			@endif
 			<li class="li-nav">
-				<a href="{{ url('/subscription') }}">구독함</a>
+				<a class="{{ strpos($_SERVER['REQUEST_URI'], 'works') ? 'on' : ''}}" href="{{ url('/works') }}">갤러리</a>
 				<ul class="ul-child">
 					<li class="li-child"> <a href="">조건1</a> </li>
 					<li class="li-child"> <a href="">조건2</a> </li>
@@ -12,38 +17,13 @@
 			</li>
 
 			<li class="li-nav">
-				<a href="{{ url('/works') }}">갤러리</a>
+				<a class="{{ strpos($_SERVER['REQUEST_URI'], 'artist') ? 'on' : ''}}" href="{{ url('/artist') }}">아티스트</a>
 				<ul class="ul-child">
 					<li class="li-child"> <a href="">조건1</a> </li>
 					<li class="li-child"> <a href="">조건2</a> </li>
 					<li class="li-child"> <a href="">조건3</a> </li>
 				</ul>
 			</li>
-
-			<li class="li-nav">
-				<a href="{{ url('/artist') }}">아티스트</a>
-				<ul class="ul-child">
-					<li class="li-child"> <a href="">조건1</a> </li>
-					<li class="li-child"> <a href="">조건2</a> </li>
-					<li class="li-child"> <a href="">조건3</a> </li>
-				</ul>
-			</li>
-			<!-- <li class="li-nav">
-				<a href="{{ url('/category') }}">카테고리C</a>
-				<ul class="ul-child">
-					<li class="li-child"> <a href="">조건1</a> </li>
-					<li class="li-child"> <a href="">조건2</a> </li>
-					<li class="li-child"> <a href="">조건3</a> </li>
-				</ul>
-			</li>
-			<li class="li-nav">
-				<a href="{{ url('/category') }}">카테고리D</a>
-				<ul class="ul-child">
-					<li class="li-child"> <a href="">조건1</a> </li>
-					<li class="li-child"> <a href="">조건2</a> </li>
-					<li class="li-child"> <a href="">조건3</a> </li>
-				</ul>
-			</li> -->
 		</ul>
 		<ul class="ul-user">
 			@if(auth()->guest())				

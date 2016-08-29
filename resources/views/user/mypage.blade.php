@@ -131,6 +131,7 @@
 						</li>
 					@endforeach
 				</ul>
+				{!! $articles->links() !!}
 			</div>
 		@endif
 		<!-- 팔로워 / 팔로우 리스트 -->
@@ -178,6 +179,7 @@
 						</li>
 					@endforeach
 				</ul>
+				{!! $users->links() !!}
 			</div>
 		@endif
 		

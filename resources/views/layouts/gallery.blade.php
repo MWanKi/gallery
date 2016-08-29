@@ -43,5 +43,16 @@
 		<div class="wrap_main" id="pjax-container">
 			@yield('content')
 		</div>
+		<div class="wrap-footer">
+			<div class="box-footer">
+				<ul class="ul-footer">
+					<li><a href="">도움말</a></li>
+					<li><a href="">자주묻는 질문</a></li>
+					<li><a href="">이용약관</a></li>
+					<li><a href="">개인정보 취급방침</a></li>
+					<li><p>COPYRIGHT 2016 © C.SIDE INC. ALL RIGHTS RESERVED.</p></li>	
+				</ul>
+			</div>
+		</div>
 	</body>
 </html>
