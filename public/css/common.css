@@ -437,7 +437,6 @@ body {padding:75px 0 0; background:#fbfbfb;}
 .wrap-mypage .none-article {font-size:18px; color:#9a9a9a; text-align:center; padding:50px 0;}
 .wrap-mypage .none-article span {display:block; font-size:60px; text-align:center; margin:0 0 30px;}
 
-.wrap-artist .ul-follow-users {padding:10px 0 0;}
 .wrap-artist .ul-follow-users .li-data {width:228px; margin:10px; padding:10px 0 0; float:left; border-right:1px solid #d4d4d4; border-bottom:2px solid #d4d4d4; box-shadow:0 0 2px rgba(0,0,0,0.3); background:#fff;}
 .wrap-artist .ul-follow-users .li-data .box-profile .name {font-size:14px; padding:0 0 10px; color:#565656; text-align:center;}
 .wrap-artist .ul-follow-users .li-data .box-profile .box-image {margin:20px auto; width:70px; height:70px; overflow: hidden; border-radius:50%; border:1px solid #d4d4d4;}
@@ -469,4 +468,16 @@ body {padding:75px 0 0; background:#fbfbfb;}
 .wrap-artist .box-article ul li {float: left; width:25%; height:57px; -webkit-transition:.1s all ease-in; -o-transition:.1s all ease-in; transition:.1s all ease-in;}
 .wrap-artist .box-article ul li:hover {opacity:0.7;}
 .wrap-artist .box-article ul li img {width:100%;}
+
+
+.pagination {clear:both; width:100%; padding:30px 0; text-align:center;}
+.pagination li {display:inline-block; margin:0 10px;}
+.pagination li span {display:inline-block; width:30px; height:30px; line-height:32px; text-align:center; border:1px solid #d4d4d4; background:#fff; color:#565656; cursor:pointer; font-size:13px;}
+.pagination li a {display:inline-block; width:30px; height:30px; line-height:32px; text-align:center; border:1px solid #d4d4d4; background:#fff; color:#565656; cursor:pointer; font-size:13px;}
+.pagination li span:hover {background:#f4f4f4;}
+.pagination li a:hover {background:#f4f4f4;}
+.pagination li.active span {border:1px solid #ed642c; color:#fff; background:#ed642c;}
+
+
+
 

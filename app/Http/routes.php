@@ -18,6 +18,7 @@ Route::resource('/report','ReportController');
 Route::resource('articles','ArticleController');
 Route::resource('works','ArticleController@works');
 Route::resource('artist','ArticleController@artist');
+Route::resource('subscription','ArticleController@subscription');
 Route::resource('articles/{article_id}/like','ArticleController@like');
 
 Route::resource('articles/{article_id}/comments','CommentController');

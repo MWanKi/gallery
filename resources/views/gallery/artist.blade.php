@@ -3,9 +3,16 @@
 @endsection
 @section('content')
 <div class="wrap-index wrap-artist">
-	<h2>C.GALLERY의 인기 작가들입니다.</h2>
+	<div class="box-sort">
+		<ul class="ul-works-cate">
+			<li><a class="{{ $category == '' ? 'on' : '' }}" href="{{ url('/artist') }}">전체보기</a></li>
+			<li><a class="{{ $category == 'follow-top100' ? 'on' : '' }}" href="{{ url('/artist?cate=follow-top100') }}">팔로우 Top100</a></li>
+			<li><a class="{{ $category == 'likes-top100' ? 'on' : '' }}" href="{{ url('/artist?cate=likes-top100') }}">좋아요 Top100</a></li>
+			<li><a class="{{ $category == 'works' ? 'on' : '' }}" href="{{ url('/artist?cate=works') }}">작품수 많은 순</a></li>
+			<li><a class="{{ $category == 'new' ? 'on' : '' }}" href="{{ url('/artist?cate=new') }}">최신순</a></li>
+		</ul>
+	</div>	
 	<div class="box-like-content">
-		<h2></h2>
 		<ul class="ul-follow-users">
 			@foreach($users as $user)
 				<li class="li-data">
@@ -64,6 +71,7 @@
 				</li>
 			@endforeach
 		</ul>
+		{!! $users->links() !!}
 	</div>
 </div>
 @endsection

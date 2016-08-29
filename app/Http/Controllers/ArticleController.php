@@ -35,6 +35,20 @@ class ArticleController extends Controller
 		]);
     }
 
+    function subscription() {
+         $articles = Article::where('deleted', false)
+                            ->orderBy('created_at', 'desc')
+                            ->paginate(25);
+                    $articles->setPath('works');     
+                    $category = '';
+        
+        
+        return view('gallery.works', [
+            'articles' => $articles,
+            'category' => $category
+        ]);
+    }
+
     function works(Request $request) 
     {
         if (isset($request->cate)) {
@@ -44,53 +58,61 @@ class ArticleController extends Controller
                     $articles = Article::where('deleted', false)
                             ->where('category',0)
                             ->orderBy('created_at', 'desc')
-                            ->get();    
+                            ->paginate(5);
+                    $articles->setPath('works?cate='.$request->cate);    
                     $category = 'A';
                     break;
                 case 'B':
                     $articles = Article::where('deleted', false)
                             ->where('category',1)
                             ->orderBy('created_at', 'desc')
-                            ->get();    
+                            ->paginate(25);
+                    $articles->setPath('works?cate='.$request->cate);    
                     $category = 'B';
                     break;
                 case 'C':
                     $articles = Article::where('deleted', false)
                             ->where('category',2)
                             ->orderBy('created_at', 'desc')
-                            ->get();    
+                            ->paginate(25);
+                    $articles->setPath('works?cate='.$request->cate);      
                     $category = 'C';
                     break;
                 case 'D':
                     $articles = Article::where('deleted', false)
                             ->where('category',3)
                             ->orderBy('created_at', 'desc')
-                            ->get();   
+                            ->paginate(25);
+                    $articles->setPath('works?cate='.$request->cate);    
                     $category = 'D';
                     break;   
                 case 'new':
                     $articles = Article::where('deleted', false)
                             ->orderBy('created_at', 'desc')
-                            ->get();   
+                            ->paginate(25);
+                    $articles->setPath('works?cate='.$request->cate);    
                     $category = 'new';
                     break;   
                 case 'hit':
                     $articles = Article::where('deleted', false)
                             ->orderBy('hit_count', 'desc')
-                            ->get();   
+                            ->paginate(25);
+                    $articles->setPath('works?cate='.$request->cate);    
                     $category = 'hit';
                     break;   
                 case 'like':
                     $articles = Article::where('deleted', false)
                             ->orderBy('like_count', 'desc')
-                            ->get();   
+                            ->paginate(25);
+                    $articles->setPath('works?cate='.$request->cate);    
                     $category = 'like';
                     break;    
             }
         } else {
             $articles = Article::where('deleted', false)
                             ->orderBy('created_at', 'desc')
-                            ->get();    
+                            ->paginate(25);
+                    $articles->setPath('works');     
                     $category = '';
         }
         
@@ -102,18 +124,57 @@ class ArticleController extends Controller
 
     function artist(Request $request) 
     {
-        $users = User::where('deleted', false)
-                        ->orderBy('follower_count', 'desc')
-                        ->get();
 
+        if (isset($request->cate)) {
+            switch ($request->cate) {
+                case 'follow-top100':
+                    $users = User::where('deleted', false)
+                        ->orderBy('follower_count', 'desc')
+                        ->take(100)
+                        ->paginate(20);
+                    $users->setPath('artist?cate='.$request->cate);
+                    $category = 'follow-top100';
+                    break;
+                case 'likes-top100':
+                    $users = User::where('deleted', false)
+                        ->orderBy('liked', 'desc')
+                        ->take(100)
+                        ->paginate(20);
+                    $users->setPath('artist?cate='.$request->cate);
+                    $category = 'likes-top100';
+                    break;
+                case 'works':
+                    $users = User::where('deleted', false)
+                        ->orderBy('upload_articles', 'desc')
+                        ->paginate(20);
+                    $users->setPath('artist?cate='.$request->cate);
+                    $category = 'works';
+                    break;
+                case 'new':
+                    $users = User::where('deleted', false)
+                        ->orderBy('created_at', 'desc')
+                        ->paginate(20);
+                    $users->setPath('artist?cate='.$request->cate);
+                    $category = 'new';
+                    break;
+            }
+        } else {
+            $users = User::where('deleted', false)
+                        ->orderBy('created_at', 'desc')
+                        ->paginate(20);
+            $users->setPath('artist');
+            $category = '';
+        }
 
         return view('gallery.artist', [
-            'users' => $users
+            'users' => $users,
+            'category' => $category
         ]);
     }
 
     function create() 
-    {   if (auth()->guest()) {
+    {   
+        if (auth()->guest()) {
             return redirect('/auth/login');
         }
         return view('article.create');
@@ -342,7 +403,15 @@ class ArticleController extends Controller
             
             $article->save();
 
-            return redirect('/articles/'.$article->id);
+            // 업로드한 게시물 수
+            $user = User::find(auth()->user()->id);
+            $upload_articles = Article::where('deleted', false)
+                                        ->where('user_id', auth()->user()->id)
+                                        ->get();
+            $user->upload_articles = count($upload_articles);
+            $user->save();
+
+            // return redirect('/articles/'.$article->id);
         }
         
     }

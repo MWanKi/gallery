@@ -35,5 +35,6 @@
 			</li>
 		@endforeach
 	</ul>
+	{!! $articles->links() !!}
 </div>
 @endsection

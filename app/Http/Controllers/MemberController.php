@@ -21,6 +21,13 @@ use Intervention\Image\ImageManagerStatic as Image;
 class MemberController extends Controller
 {
     function userpage($user_id, Request $request) {
+
+        if (!auth()->guest()) {
+            if ($user_id == auth()->user()->id) {
+                return redirect('/mypage/'.auth()->user()->id.'?category=works');
+            }
+        }
+
         $category = $request->category;
         $user = User::find($user_id);
 

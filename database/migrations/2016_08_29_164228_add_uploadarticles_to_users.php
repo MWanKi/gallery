@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddRecentarticlesToUsers extends Migration
+class AddUploadarticlesToUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,8 @@ class AddRecentarticlesToUsers extends Migration
      */
     public function up()
     {
-        Schema::table('users', function($table){
-            $table->text('recent_articles');
+        Schema::table('users', function ($table) {
+            $table->Integer('upload_articles')->default(0);
         });
     }
 
@@ -24,8 +24,8 @@ class AddRecentarticlesToUsers extends Migration
      */
     public function down()
     {
-        Schema::table('users', function($table){
-            $table->dropColumn('recent_articles');
-        });   
+        Schema::table('users', function ($table) {
+            $table->dropColumn(['upload_articles']);
+        });
     }
 }
