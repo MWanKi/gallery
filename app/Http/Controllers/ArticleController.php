@@ -35,7 +35,8 @@ class ArticleController extends Controller
 		]);
     }
 
-    function subscription() {
+    function subscription() 
+    {
         if (auth()->guest()) {
             return redirect('/auth/login');
         } else {
@@ -62,29 +63,74 @@ class ArticleController extends Controller
     {
         $query = $request->search_query;
 
-        $tag_articles = Article::where('tag', 'like', '%'.$query.'%')
+        
+
+        $r_tag_articles = Article::where('tag', 'like', '%'.$query.'%')
                             ->where('deleted', false)
                             ->orderBy('created_at', 'desc')
-                            ->take(8)
-                            ->get();
+                            ->get();        
 
-        $articles = Article::where('title', 'like', '%'.$query.'%')
+        $r_articles = Article::where('title', 'like', '%'.$query.'%')
                             ->orWhere('body', 'like', '%'.$query.'%')
                             ->where('deleted', false)
                             ->orderBy('created_at', 'desc')
-                            ->take(8)
                             ->get();
 
-        $users = User::where('name', 'like', '%'.$query.'%')
+        $r_users = User::where('name', 'like', '%'.$query.'%')
                             ->where('deleted', false)
                             ->orderBy('created_at', 'desc')
-                            ->take(10)
                             ->get();
+
+        if (isset($request->all) && $request->all == 'tag') {
+            $tag_articles = Article::where('tag', 'like', '%'.$query.'%')
+                            ->where('deleted', false)
+                            ->orderBy('created_at', 'desc')
+                            ->paginate(16);
+            $tag_articles->setPath('/search?search_query='.$request->search_query.'&all=tag');
+            $articles = array();
+            $users = array();
+        } else if (isset($request->all) && $request->all == 'article') {
+            $tag_articles = array();
+            $articles = Article::where('title', 'like', '%'.$query.'%')
+                                ->orWhere('body', 'like', '%'.$query.'%')
+                                ->where('deleted', false)
+                                ->orderBy('created_at', 'desc')
+                                ->paginate(16);
+            $articles->setPath('/search?search_query='.$request->search_query.'&all=article');
+            $users = array();
+        } else if (isset($request->all) && $request->all == 'user') {
+            $tag_articles = array();
+            $articles = array();
+            $users = User::where('name', 'like', '%'.$query.'%')
+                                ->where('deleted', false)
+                                ->orderBy('created_at', 'desc')
+                                ->paginate(20);
+            $users->setPath('/search?search_query='.$request->search_query.'&all=user');
+        } else {
+            $tag_articles = Article::where('tag', 'like', '%'.$query.'%')
+                            ->where('deleted', false)
+                            ->orderBy('created_at', 'desc')
+                            ->paginate(8);
+
+            $articles = Article::where('title', 'like', '%'.$query.'%')
+                                ->orWhere('body', 'like', '%'.$query.'%')
+                                ->where('deleted', false)
+                                ->orderBy('created_at', 'desc')
+                                ->paginate(8);
+
+            $users = User::where('name', 'like', '%'.$query.'%')
+                                ->where('deleted', false)
+                                ->orderBy('created_at', 'desc')
+                                ->paginate(10);
+        }
 
         return view('gallery.search', [
             'articles' => $articles,
             'tag_articles' => $tag_articles,
             'users' => $users,
+            'r_articles' => $r_articles,
+            'r_tag_articles' => $r_tag_articles,
+            'r_users' => $r_users,
             'query' => $query
         ]);
     }
@@ -371,7 +417,14 @@ class ArticleController extends Controller
             $article->profit = $request->profit;
             $article->share = $request->share;
             $article->open = $request->open;
-            $article->tag = $request->tags;
+
+            // -------------- 2016. 8 .30 수정 ------------------
+            $tags = explode(',',$request->tags);
+            $tags = array_slice($tags, 0, 5);
+            $tags = implode(',', $tags);
+            $article->tag = $tags;
+            // -------------- 2016. 8 .30 수정 ------------------
+
             $article->body = $request->smarteditor;
             $article->writer_key = auth()->user()->name;
             $article->user_id = auth()->user()->id;
