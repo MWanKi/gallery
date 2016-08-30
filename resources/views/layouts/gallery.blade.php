@@ -40,7 +40,7 @@
 	</head>
 	<body>
 		@include('layouts/tag-header')
-		<div class="wrap_main" id="pjax-container">
+		<div class="wrap_main cf" id="pjax-container">
 			@yield('content')
 		</div>
 		<div class="wrap-footer">

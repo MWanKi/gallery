@@ -176,15 +176,30 @@ $(function(){
     $('#tags').tagsInput();
 	$('#tags_addTag input').attr("maxlength", 10).css({'width':'auto','display':'inline-block;'});
 	$('#tags_tag').on('keypress', function (event){
-		if (event.keyCode == 13) {
+		// -------- 2016. 8. 30 수정 ---------
+		if ($('.tag').length >= 5) { 
 			if ($('.tag').length > 5) {
 				$('.box-alert').show();
 				setTimeout(function(){
 					$('.box-alert').fadeOut(500);
-				},1000);
-				$('.tag:last').remove();
+				},1000);	
 			}
+			$(this).val("");
+			return false;
 		}
+		// -------- 2016. 8. 30 수정 ---------
+		// if (event.keyCode == 13 || event.keyCode == 188 || event.keyCode == 224) {
+		// 	if ($('.tag').length > 5) {
+		// 		$('.tag:nth-child(5) + .tag').remove();
+		// 		$('.box-alert').show();
+		// 		$(this).val("");
+		// 		setTimeout(function(){
+		// 			$('.box-alert').fadeOut(500);
+		// 		},1000);
+		// 		$('.tag:last').remove();
+		// 		return false;
+		// 	}
+		// }
 	});
 
 	// 업로드 라이선스

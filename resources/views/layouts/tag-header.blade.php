@@ -26,6 +26,12 @@
 			</li>
 		</ul>
 		<ul class="ul-user">
+			<li class="li-nav li-search">
+				<form class="form-search" action="{{ url('/search') }}" method="get">
+					<input type="text" name="search_query" id="">
+					<button type="submit"><img src="{{ url('/images/search1.png') }}" alt=""></button>	
+				</form>
+			</li>
 			@if(auth()->guest())				
 				<li class="li-nav">
 					<a class="link-login" href="{{ url('/auth/login') }}">로그인</a>

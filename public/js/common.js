@@ -85,6 +85,14 @@ $(document).on("click", "#modal .btn-no, #modal .btn-ok", function(){
 });
 // ----- 모달창 -----
 
+$(document).on('submit', '.form-search', function(){
+	if ($('.form-search input[name=search_query]').val().length) {
+		// $('.form-search').submit();
+	} else {
+		// return false;
+	}
+});
+
 // ----- 신고하기 -----
 $(document).on("submit", ".form-report", function(){
 

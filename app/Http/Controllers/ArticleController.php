@@ -58,6 +58,37 @@ class ArticleController extends Controller
         }
     }
 
+    function search(Request $request) 
+    {
+        $query = $request->search_query;
+
+        $tag_articles = Article::where('tag', 'like', '%'.$query.'%')
+                            ->where('deleted', false)
+                            ->orderBy('created_at', 'desc')
+                            ->take(8)
+                            ->get();
+
+        $articles = Article::where('title', 'like', '%'.$query.'%')
+                            ->orWhere('body', 'like', '%'.$query.'%')
+                            ->where('deleted', false)
+                            ->orderBy('created_at', 'desc')
+                            ->take(8)
+                            ->get();
+
+        $users = User::where('name', 'like', '%'.$query.'%')
+                            ->where('deleted', false)
+                            ->orderBy('created_at', 'desc')
+                            ->take(10)
+                            ->get();
+
+        return view('gallery.search', [
+            'articles' => $articles,
+            'tag_articles' => $tag_articles,
+            'users' => $users,
+            'query' => $query
+        ]);
+    }
+
     function works(Request $request) 
     {
         if (isset($request->cate)) {
@@ -390,7 +421,14 @@ class ArticleController extends Controller
             $article->profit = $request->profit;
             $article->share = $request->share;
             $article->open = $request->open;
-            $article->tag = $request->tags;
+
+            // -------------- 2016. 8 .30 수정 ------------------
+            $tags = explode(',',$request->tags);
+            $tags = array_slice($tags, 0, 5);
+            $tags = implode(',', $tags);
+            $article->tag = $tags;
+            // -------------- 2016. 8 .30 수정 ------------------
+
             $article->body = $request->smarteditor;
             $article->writer_key = auth()->user()->name;
             $article->user_id = auth()->user()->id;
@@ -420,7 +458,7 @@ class ArticleController extends Controller
             $user->upload_articles = count($upload_articles);
             $user->save();
 
-            // return redirect('/articles/'.$article->id);
+            return redirect('/articles/'.$article->id);
         }
         
     }
